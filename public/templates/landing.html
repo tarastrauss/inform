@@ -1,48 +1,76 @@
-<div class="container-fluid" id="landing">
+<script type="text/ng-template" id="loginModal.html">
+  <div id="loginWhole" >
+    <div class="modal-header">
+      <h4 class="modal-title" id="loginLabel">Login to <span class="play"><em>Inform</em></span></h4>
+    </div>
+    <div class="modal-body login-body">
+      <input ng-model="vm.username" type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1"><br>
+      <input ng-model="vm.password" type="text" class="form-control" placeholder="Password" aria-describedby="basic-addon1">
+    </div>
+    <div class="modal-footer" id="login-footer">
+      <button type="button" class="modal-btn btn btn-default" ng-click="cancel()">Close</button>
+      <button type="button" class="modal-btn btn btn-{{color}}" ng-click="ok()">Submit</button>
+    </div>
+  </div>
+</script>
+
+
+<script type="text/ng-template" id="startedModal.html">
+  <div id="startedWhole">
+    <div class="modal-header">
+      <h4 class="modal-title" id="startedLabel">What is <span class="play"><em>Inform</em></span>?</h4>
+    </div>
+    <div class="modal-body">
+      <p class="text"><span class="play">Inform</span> is a website meant to help voters gather bipartisan information about the US political system. Our
+      goal is to help voters be as informed as possible on both sides of every issue and to make voting easier and
+      more fun!</p>
+      <p class="text">Inform SCORE.</p>
+      <p class="text"> Your inform SCORE is calculated using an algorithm that takes all your interactions on our site into
+      consideration. The more articles you read from both sides, the higher your inform SCORE! You also get points for
+      sharing articles from both sides and for finding your polling place. For more information on our algorithm,
+      click HERE. </p>
+    </div>
+    <div class="modal-footer" id="started-footer">
+      <button type="button" class="btn modal-btn btn-default" ng-click="cancel()">Close</button>
+      <button type="button" class="btn modal-btn btn-{{color}}" ng-click="getStarted()">Get Started</button>
+    </div>
+  </div>
+</script>
+
+<script type="text/ng-template" id="signUpModal.html">
+  <div id="loginWhole" >
+    <div class="modal-header">
+      <h4 class="modal-title" id="signUpLabel">Sign up for <span class="play"><em>Inform</em></span></h4>
+    </div>
+    <div class="modal-body login-body">
+      <input ng-model="vm.first_name" type="text" class="form-control" placeholder="First Name" aria-describedby="basic-addon1"><br>
+      <input ng-model="vm.last_name" type="text" class="form-control" placeholder="Last Name" aria-describedby="basic-addon1"><br>
+      <input ng-model="vm.dob" type="text" class="form-control" placeholder="Date of Birth" aria-describedby="basic-addon1"><br>
+      <input ng-model="vm.username" type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1"><br>
+      <input ng-model="vm.password" type="text" class="form-control" placeholder="Password" aria-describedby="basic-addon1"><br>
+      <input ng-model="vm.password" type="text" class="form-control" placeholder="Re-enter Password" aria-describedby="basic-addon1">
+    </div>
+    <div class="modal-footer" id="login-footer">
+      <button type="button" class="modal-btn btn btn-default" ng-click="cancel()">Close</button>
+      <button type="button" class="modal-btn btn btn-{{color}}" ng-click="signUp()" ui-sref="feedPage" >Submit</button>
+    </div>
+  </div>
+</script>
+
+<div class="container-fluid" id="landing" ng-controller="ModalController">
   <div class="container" id="landing-mid">
-    <div id="quote" class="animated fadeInDown"> “Democracy cannot succeed unless those who express their choice are prepared to choose wisely. The real safeguard of democracy, therefore, is education.”
-  ― Franklin D. Roosevelt </div>
-    <div id="intro-buttons">
-<button data-toggle="modal" data-target="#loginModal" class="intro btn btn-default fadeIn animated" id="login"> Login </button>
+    <div id="quoteContainer" class="animated fadeInDown">
+      <div id="quote" > “Democracy cannot succeed unless those who express their choice are prepared to choose wisely. The real safeguard of democracy, therefore, is education.”
+      ― Franklin D. Roosevelt </div>
     </div>
-  </div>
-
-
-
-<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="loginLabel">Login</h4>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Submit</button>
-      </div>
+    <div id="intro-buttons" ng-if="showLoginButtons"  class="fadeIn animated">
+      <span id="login" ng-click="openLogin()" class="intro btn btn-default"> Login </span>
+      <span id="started" ng-click="openStarted()" class="intro btn btn-default" > Get Started </span>
     </div>
   </div>
 </div>
 
-<div class="modal fade" id="startedModal" tabindex="-1" role="dialog" aria-labelledby="startedLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="startedLabel">About <em>Inform</em></h4>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Get Started</button>
-      </div>
-    </div>
-  </div>
-</div>
 
-</div>
+
+
+

@@ -5,10 +5,16 @@
       .module("informApp")
       .controller("MainController", MainController);
 
-  function MainController() {
+  MainController.$inject = ["$log"];
+
+
+  function MainController($log) {
     var vm = this;
 
     vm.message = "fun";
+
+    vm.username;
+    vm.password;
 
   }
 })();

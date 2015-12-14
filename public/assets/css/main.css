@@ -3371,16 +3371,22 @@ body {
 #quote {
   font-family: Yantramanav;
   text-align: center;
-  width: 480px;
+ /* width: 480px;*/
   position: relative;
-  border: 2px solid black;
   padding: 20px;
+  background-color: rgba(240, 240, 240, 0.6);
+/*  margin: 3px;*/
   border-radius: 9px;
-  background-color: rgba(240, 240, 240, 0.43);
   color: rgba(0, 0, 0, 1);
   font-size: 20px;
-  font-weight: lighter;
-  margin-bottom: 10px;
+
+}
+
+#quoteContainer {
+    border-radius: 9px;
+    /*border: 2px solid white;*/
+    margin-bottom: 10px;
+    box-shadow: 3px 3px 3px black;
 }
 
 #intro-buttons {
@@ -3391,9 +3397,80 @@ body {
   position: relative;
 
 }
-
-.intro {
-  margin: 10px;
+.nav-right {
+  float: right;
 }
 
+.navbar {
+  border-radius: 0px;
+}
+
+#nav-inform {
+  color: white;
+  text-alight: center;
+  padding-top: 7px;
+  margin-left: 15%;
+}
+.play {
+  font-family: Play;
+}
+
+.nav-options {
+  display: inline-block;
+}
+.intro {
+  margin: 10px;
+  box-shadow: 3px 3px 3px black;
+}
+.modal-btn{
+  box-shadow: 3px 3px 3px black;
+  margin-right: 10px;
+}
+.modal {
+  text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+  .modal:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+  }
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: 35%;
+}
+
+#started-footer {
+  width: 250px;
+  margin: 0 auto;
+}
+#login-footer{
+  width: 200px;
+  margin: 0 auto;
+
+}
+.modal-header {
+  width: 250px;
+  margin: 0 auto;
+    text-align: center;
+
+}
+
+.text {
+  font-family:Yantramanav;
+}
+
+.login-body{
+  width: 60%;
+  margin: 0 auto;
+}
+
+.modal-header {
+  font-family:Yantramanav;
+}
 

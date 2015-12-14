@@ -5,9 +5,9 @@ var uglify = require('gulp-uglify');
 
 gulp.task('scripts', function() {
   console.log('running scripts gulp');
-    return gulp.src(['libs/angular.min.js','libs/ui-router.0.2.1.js', 'libs/**/*.js', 'src/app.module.js', 'src/app.routes.js', 'src/**/*.js'])
+    return gulp.src(['jquery-2.1.4.min.js', 'libs/angular.min.js','libs/angular-animate.min.js', 'libs/ui-router.0.2.1.js', 'libs/*.js', 'src/app.module.js', 'src/app.routes.js', 'src/**/*.js'])
         .pipe(concat('app.js'))
-        .pipe(uglify())
+        // .pipe(uglify())
         .pipe(gulp.dest('public/js'));
 });
 
