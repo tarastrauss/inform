@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
 
-var env = require('./environment');
+// var env = require('./environment');
 
-var dbUri = env.MONGOLAB_URI ||
+var dbUri = process.env.MONGOLAB_URI ||
             'mongodb://localhost/inform';
 
 // connect to dbcd

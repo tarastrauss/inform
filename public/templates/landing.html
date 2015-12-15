@@ -10,6 +10,7 @@
     <div class="modal-footer" id="login-footer">
       <button type="button" class="modal-btn btn btn-default" ng-click="cancel()">Close</button>
       <button type="button" class="modal-btn btn btn-{{color}}" ng-click="ok()">Submit</button>
+
     </div>
   </div>
 </script>
@@ -64,7 +65,11 @@
       ― Franklin D. Roosevelt </div>
     </div>
     <div id="intro-buttons" ng-if="showLoginButtons"  class="fadeIn animated">
-      <span id="login" ng-click="openLogin()" class="intro btn btn-default"> Login </span>
+      <!-- <button id="login" ng-hide="session.isLoggedIn" ng-click="session.facebookLogin()" class="intro btn btn-default" >Login</button> -->
+      <span class="intro btn btn-default"> <a ng-click="changeState()" href="/auth/facebook" > Login </a></span>
+      <!-- <span ng-show="session.isLoggedIn" ng-bind="'Hello ' + session.currentUser.name"></span> -->
+      <!-- <button ng-show="session.isLoggedIn" ng-click="session.logout()">Logout</button> -->
+      <!-- <span id="login" ng-click="openLogin()" class="intro btn btn-default"> Login </span> -->
       <span id="started" ng-click="openStarted()" class="intro btn btn-default" > Get Started </span>
     </div>
   </div>

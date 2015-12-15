@@ -2,40 +2,19 @@
 var mongoose = require('mongoose');
 var candidateSchema = require('./candidate');
 
-//Schema of User model
-var userSchema = new mongoose.Schema({
-  first_name: String,
-  last_name: String,
-  dob: Date,
-  queries: [querySchema],
-  points: Number,
-  picture: String,
-  friends: [friendSchema],
-  vote_info: voteSchema,
-  posts: [postSchema]
-});
+
 
 var querySchema = new mongoose.Schema({
-  query_input: String,
-  postive_click: Number,
-  negative_click: Number
+  queryInput: String,
+  postiveClick: Number,
+  negativeClick: Number
 });
 
 var friendSchema = new mongoose.Schema({
-  first_name: String,
-  last_name: String,
-  user_id: String,
+  firstName: String,
+  lastName: String,
+  userId: String,
   points: Number
-});
-
-var voteSchema = new mongoose.Schema({
-  has_searched: Boolean,
-  my_location_name: String,
-  my_location_street: String,
-  my_location_city: String,
-  my_location_zip: String,
-  my_location_state: String,
-  elections: [electionSchema]
 });
 
 var electionSchema = new mongoose.Schema({
@@ -43,6 +22,33 @@ var electionSchema = new mongoose.Schema({
   district: String,
   date: Date,
   candidates: [candidateSchema]
+});
+
+
+var voteSchema = new mongoose.Schema({
+  hasSearched: Boolean,
+  myLocationName: String,
+  myLocationStreet: String,
+  myLocationCity: String,
+  myLocationZip: String,
+  myLocationState: String,
+  elections: [electionSchema]
+});
+
+
+//Schema of User model
+var userSchema = new mongoose.Schema({
+  firstName: String,
+  lastName: String,
+  facebookId: String,
+  age: String,
+  queries: [querySchema],
+  points: Number,
+  picture: String,
+  friends: [friendSchema],
+  voteInfo: voteSchema,
+  posts: String,
+  email: String
 });
 
 // Create the model using your schema.

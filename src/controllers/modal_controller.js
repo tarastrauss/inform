@@ -5,9 +5,15 @@
       .module("informApp")
       .controller("ModalController", ModalController);
 
-  ModalController.$inject = ['$uibModal', '$scope', '$timeout'];
+  ModalController.$inject = ['$uibModal', '$scope', '$timeout', 'userService', '$state'];
 
-  function ModalController($uibModal, $scope, $timeout) {
+  function ModalController($uibModal, $scope, $timeout, userService, $state) {
+
+    $scope.userService = userService;
+
+    $scope.changeState = function () {
+      $state.go('feedPage');
+    }
 
     $scope.openLogin = function (){
 
