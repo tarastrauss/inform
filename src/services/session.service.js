@@ -33,10 +33,17 @@
                 //   authSuccess(data.user);
 
                 // });
-                $http.get('/auth/facebook').then(function(){
-                    console.log("whats up");
-                    // $rootScope.currentUser = data.user;
-                });
+                $window.location.href= "http://localhost:3000/auth/facebook";
+                // $http.get('/auth/facebook', {
+                //      headers: {
+                //         'Content-Type': 'application/json',
+                //         // 'Access-Control-Allow-Origin': '*'
+                //     }
+
+                // }).then(function(){
+                //     console.log("whats up");
+                //     // $rootScope.currentUser = data.user;
+                // });
             },
             logout: function() {
                 var scope = this;

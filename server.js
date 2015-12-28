@@ -6,6 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session      = require('express-session'); // for login sessions
 var passport     = require('passport'); // Easy API Authorization
+var cors = require ('cors');
+// var satellizer = require('satellizer');
 // var mongoStore = require('connect-mongo')(express)
 require('dotenv').load();
 require('./app/config/database');
@@ -13,6 +15,7 @@ require('./app/config/database');
 // var inform = require('./app/routes/index');
 
 var app = express();
+
 
 // requiring the database
 // var mongoose = require('./app/config/database');
@@ -29,23 +32,24 @@ app.set('views', path.join(__dirname, 'public'));
 // app.set('view engine', 'ejs');
 // require('ejs').delimiter = '%';
 
-// var allowCrossDomain = function(req, res, next) {
-//   res.header('Access-Control-Allow-Origin', '*');
-//   res.header('Access-Control-Allow-Headers', 'Content-Type');
-//   next();
-// }
-
-app.use(function(req, res, next) {
-  res.header('Access-Control-Allow-Origin',  '*');
-  // res.header('Access-Control-Allow-Origin: http://localhost:3000');
+var allowCrossDomain = function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
   res.header('Access-Control-Allow-Methods', '*');
-  res.header('Access-Control-Allow-Headers', '*');
-  if ('OPTIONS' == req.method) {
-    res.send(200);
-  } else {
-    next();
-  }
-});
+  next();
+}
+
+// app.use(function(req, res, next) {
+//   res.header('Access-Control-Allow-Origin',  '*');
+//   // res.header('Access-Control-Allow-Origin: http://localhost:3000');
+//   res.header('Access-Control-Allow-Methods', '*');
+//   res.header('Access-Control-Allow-Headers', '*');
+//   if ('OPTIONS' == req.method) {
+//     res.send(200);
+//   } else {
+//     next();
+//   }
+// });
 
 
 // uncomment after placing your favicon in /img
@@ -54,14 +58,15 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-// app.use(allowCrossDomain);
+app.use(allowCrossDomain);
+app.use(cors());
 
 // app.use('/api/users', users);
 
 app.use(session({
-  secret: 'Inform',
-  resave: false,
-  saveUninitialized: true
+  secret: 'Inform'
+  // resave: false,
+  // saveUninitialized: true
 }));
 
 // app.use(session({

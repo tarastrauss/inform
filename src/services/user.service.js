@@ -5,21 +5,19 @@
     .module("informApp")
     .factory('userService', userService);
 
-    userService.$inject = ['$rootScope'];
+    userService.$inject = ['$rootScope', '$http'];
 
-    function userService ($rootScope) {
+    function userService ($rootScope, $http) {
 
       var user = {
-        userInfo: userInfo,
         loggedIn: false,
-        getUser: getUser
+        getUser: getUser,
+        userInfo: {}
       }
 
-      var userInfo;
-
       var getUser = function(){
-        $http.get('/api/user').then(function(response) {
-          userInfo = response.data;
+        return $http.get('/api/user').then(function(response) {
+          user.userInfo = response.data;
         });
       }
 
