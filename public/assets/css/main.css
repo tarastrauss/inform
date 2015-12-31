@@ -3446,13 +3446,22 @@ body {
 }
 
 #started-footer {
-  width: 350px;
+  width: 200px;
   margin: 0 auto;
 }
 #login-footer{
   width: 200px;
   margin: 0 auto;
 
+}
+
+#dropdown {
+  margin-top: -7px;
+}
+
+#login-buttons {
+    width: 200px;
+  margin: 0 auto;
 }
 .modal-header {
   width: 250px;

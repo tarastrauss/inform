@@ -1,32 +1,9 @@
+<br><br><br>
+<h1> hi </h1>
+<div ng-controller="FeedController as vm">
+  {{vm.articles}}
 
-<nav class="navbar navbar-default navbar-fixed-top navbar-inverse" >
-  <div class="container-fluid">
-    <div class="navbar-header navbar-brand">
-      <span role="presentation" ui-sref-active="active">
-        <a ui-sref="profilePage">Profile ( {{currentUser.email}} )</a>
-      </span>
-    </div>
-
-    <div class="collapse navbar-collapse">
-      <h2 class="nav navbar-nav play" id="nav-inform"> I N F O R M <small><em> yourself</em></small></h2>
-      <ul class="nav navbar-nav navbar-right">
-        <li class="nav-options" role="presentation" ui-sref-active="active">
-          <a ui-sref="feedPage">News Feed</a>
-        </li>
-        <li class="nav-options" role="presentation" ui-sref-active="active">
-          <a ui-sref="candidatesPage">Candidates</a>
-        </li>
-        <li class="nav-options" role="presentation" ui-sref-active="active">
-          <a ui-sref="pollingPage">Votes</a>
-        </li>
-      </ul>
-      <form class="navbar-form navbar-right" role="search" ng-submit="search()">
-        <div class="form-group">
-          <input type="text" ng-model="query" class="form-control" placeholder="Barak Obama">
-        </div>&nbsp;&nbsp;
-        <button type="submit" class="btn btn-warning">Search for News</button>
-      </form>
-    </div>
+  <div ng-cloak class="articles" ng-repeat="article in vm.articles">
+    {{article.source.enriched.url.title}}
   </div>
-
-</nav>
+</div>

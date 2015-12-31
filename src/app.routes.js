@@ -5,13 +5,17 @@
     .module("informApp")
     .config(AppRoutes);
 
-  AppRoutes.$inject = ["$stateProvider", "$urlRouterProvider", '$locationProvider'];
+  AppRoutes.$inject = ["$stateProvider", "$urlRouterProvider"];
 
-  function AppRoutes($stateProvider, $urlRouterProvider, $locationProvider) {
+  function AppRoutes($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state("landingPage", {
         url: "/",
-        templateUrl: "/templates/landing.html",
+        views: {
+          content: {
+            templateUrl: "/templates/landing.html"
+          }
+        },
         controller: "MainController",
         controllerAs: "vm"
       })
@@ -21,28 +25,24 @@
       })
       .state("feedPage", {
         url: "/feed",
-        templateUrl: "/templates/feed.html",
+        views: {
+          nav: {
+            templateUrl: '/templates/navbar.html'
+          },
+          content: {
+            templateUrl: "/templates/feed.html"
+          }
+        },
         controller: "FeedController",
-        controllerAs: "vm"
+        controllerAs: "vm",
+        resolve: {
+          userPrep: userPrep
+        }
       });
 
-      // .state("oauth", {
-      //   url: "/auth/facebook",
-
-      // })
-    $authProvider.loginUrl = 'http://localhost:3000/auth/login';
-    $authProvider.signupUrl = 'http://localhost:3000/auth/signup';
-
-    // $authProvider.oauth2({
-    //   name: 'facebook',
-    //   url: 'http://localhost:3000/auth/facebook',
-    //   redirectUri: 'http://localhost:3000/auth/facebook/callback',
-    //   clientId: process.env.FACEBOOK_ID,
-    //   requiredUrlParams: ['scope'],
-    //   scope: ['email'],
-    //   scopeDelimiter: '+',
-    //   authorizationEndpoint: 'https://graph.facebook.com/endpoint?key=value&amp;access_token=' + process.env.FACEBOOK_ID + '|' + process.env.FACEBOOK_SECRET
-    // });
+  function userPrep(userDataService) {
+    userDataService.currentUserData();
+  }
 
     $urlRouterProvider.otherwise("/");
   }

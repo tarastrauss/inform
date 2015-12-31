@@ -4,13 +4,16 @@
       <h4 class="modal-title" id="loginLabel">Login to <span class="play"><em>Inform</em></span></h4>
     </div>
     <div class="modal-body login-body">
-      <input ng-model="vm.username" type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1"><br>
-      <input ng-model="vm.password" type="text" class="form-control" placeholder="Password" aria-describedby="basic-addon1">
-    </div>
-    <div class="modal-footer" id="login-footer">
-      <button type="button" class="modal-btn btn btn-default" ng-click="cancel()">Close</button>
-      <button type="button" class="modal-btn btn btn-{{color}}" ng-click="ok()">Submit</button>
-
+      <form id="log" class="pure-form center" ng-submit="logInUser()">
+        <fieldset class="pure-group center">
+          <input ng-model="auth.email" type="email" class="email form-control" placeholder="Email" aria-describedby="basic-addon1"><br>
+          <input ng-model="auth.password" type="password" class="password form-control" placeholder="Password" aria-describedby="basic-addon1"><br>
+        <div id="login-buttons">
+          <button type="button" class="modal-btn btn btn-default" ng-click="cancel()">Close</button>
+          <button type="submit" class="modal-btn btn btn-{{color}}" >Submit</button>
+        </div>
+        </fieldset>
+      </form>
     </div>
   </div>
 </script>
@@ -33,7 +36,7 @@
     </div>
     <div class="modal-footer" id="started-footer">
       <button type="button" class="btn modal-btn btn-default" ng-click="cancel()">Close</button>
-      <span type="button" class="btn modal-btn btn-{{color}}" ng-click="getStarted()">Login with Facebook</span>
+      <span type="button" class="btn modal-btn btn-{{color}}" ng-click="getStarted()">Sign Up</span>
     </div>
   </div>
 </script>
@@ -44,16 +47,17 @@
       <h4 class="modal-title" id="signUpLabel">Sign up for <span class="play"><em>Inform</em></span></h4>
     </div>
     <div class="modal-body login-body">
-      <input ng-model="vm.first_name" type="text" class="form-control" placeholder="First Name" aria-describedby="basic-addon1"><br>
-      <input ng-model="vm.last_name" type="text" class="form-control" placeholder="Last Name" aria-describedby="basic-addon1"><br>
-      <input ng-model="vm.dob" type="text" class="form-control" placeholder="Date of Birth" aria-describedby="basic-addon1"><br>
-      <input ng-model="vm.username" type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1"><br>
-      <input ng-model="vm.password" type="text" class="form-control" placeholder="Password" aria-describedby="basic-addon1"><br>
-      <input ng-model="vm.password" type="text" class="form-control" placeholder="Re-enter Password" aria-describedby="basic-addon1">
-    </div>
-    <div class="modal-footer" id="login-footer">
-      <button type="button" class="modal-btn btn btn-default" ng-click="cancel()">Close</button>
-      <button type="button" class="modal-btn btn btn-{{color}}" ng-click="signUp()" ui-sref="feedPage" >Submit</button>
+      <form id="userCreate" class="pure-form center" ng-submit="createUser()">
+        <fieldset class="pure-group center">
+          <input type="text" ng-model="user.first_name"   class="first_name form-control" placeholder="First Name" aria-describedby="basic-addon1"><br>
+          <input type="text" ng-model="user.last_name"    class="last_name form-control" placeholder="Last Name" aria-describedby="basic-addon1"><br>
+          <input type="email"    ng-model="user.email"    class="email form-control" aria-describedby="basic-addon1" placeholder="email"><br>
+          <input type="date" ng-model="user.dob"          class="dob form-control" placeholder="" aria-describedby="basic-addon1"><br>
+          <input type="password" ng-model="user.password" class="password form-control" placeholder="Password" aria-describedby="basic-addon1"><br>
+          <button type="button" class="modal-btn btn btn-default" ng-click="cancel()">Close</button>
+          <button type="submit" class="modal-btn btn btn-{{color}}" >Submit</button>
+        </fieldset>
+      </form>
     </div>
   </div>f
 </script>
@@ -65,11 +69,7 @@
       ― Franklin D. Roosevelt </div>
     </div>
     <div id="intro-buttons" ng-if="showLoginButtons"  class="fadeIn animated">
-      <!-- <button id="login" ng-hide="session.isLoggedIn" ng-click="session.facebookLogin()" class="intro btn btn-default" >Login</button> -->
-      <span class="intro btn btn-default"> <a ng-click="changeState()" href="/auth/facebook" > Login </a></span>
-      <!-- <span ng-show="session.isLoggedIn" ng-bind="'Hello ' + session.currentUser.name"></span> -->
-      <!-- <button ng-show="session.isLoggedIn" ng-click="session.logout()">Logout</button> -->
-      <!-- <span id="login" ng-click="openLogin()" class="intro btn btn-default"> Login </span> -->
+      <span ng-click="openLogin()" class="intro btn btn-default">  Login</span>      <!-- <span ng-show="session.isLoggedIn" ng-bind="'Hello ' + session.currentUser.name"></span> -->
       <span id="started" ng-click="openStarted()" class="intro btn btn-default" > Get Started </span>
     </div>
   </div>

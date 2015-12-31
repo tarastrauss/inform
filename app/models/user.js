@@ -2,7 +2,7 @@
 var mongoose = require('mongoose');
 var candidateSchema = require('./candidate');
 
-
+mongoose.Promise = Promise;
 
 var querySchema = new mongoose.Schema({
   queryInput: String,
@@ -40,8 +40,7 @@ var voteSchema = new mongoose.Schema({
 var userSchema = new mongoose.Schema({
   firstName: String,
   lastName: String,
-  facebookId: String,
-  age: String,
+  dob: Date,
   queries: [querySchema],
   points: Number,
   picture: String,
@@ -50,6 +49,9 @@ var userSchema = new mongoose.Schema({
   posts: String,
   email: String
 });
+
+// add bcrypt hashing to model (works on a password field)!
+userSchema.plugin(require('mongoose-bcrypt'));
 
 // Create the model using your schema.
 var User = mongoose.model('User', userSchema);

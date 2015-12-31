@@ -5,87 +5,94 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session      = require('express-session'); // for login sessions
-var passport     = require('passport'); // Easy API Authorization
-var cors = require ('cors');
-// var satellizer = require('satellizer');
-// var mongoStore = require('connect-mongo')(express)
+
+
 require('dotenv').load();
 require('./app/config/database');
 
 // var inform = require('./app/routes/index');
+var env = require('./app/config/environment');
 
 var app = express();
 
+app.set('title', env.TITLE);
+app.set('safe-title', env.SAFE_TITLE);
 
-// requiring the database
-// var mongoose = require('./app/config/database');
+app.set('secret-key', env.SECRET_KEY);
 
-// secure keys
-
-// app.use('/', inform);
-
-// app.locals({
-//   title: 'inform'
-// });
-// view engine setup
 app.set('views', path.join(__dirname, 'public'));
 // app.set('view engine', 'ejs');
 // require('ejs').delimiter = '%';
 
-var allowCrossDomain = function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
+
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin',  '*');
+  // res.header('Access-Control-Allow-Origin: http://localhost:3000');
   res.header('Access-Control-Allow-Methods', '*');
-  next();
-}
-
-// app.use(function(req, res, next) {
-//   res.header('Access-Control-Allow-Origin',  '*');
-//   // res.header('Access-Control-Allow-Origin: http://localhost:3000');
-//   res.header('Access-Control-Allow-Methods', '*');
-//   res.header('Access-Control-Allow-Headers', '*');
-//   if ('OPTIONS' == req.method) {
-//     res.send(200);
-//   } else {
-//     next();
-//   }
-// });
+  res.header('Access-Control-Allow-Headers', '*');
+  if ('OPTIONS' == req.method) {
+    res.send(200);
+  } else {
+    next();
+  }
+});
 
 
-// uncomment after placing your favicon in /img
+app.use(express.static(path.join(__dirname, 'public')));
+
 //app.use(favicon(path.join(__dirname, 'public/assets/img', 'inform.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(allowCrossDomain);
-app.use(cors());
 
-// app.use('/api/users', users);
 
-app.use(session({
-  secret: 'Inform'
-  // resave: false,
-  // saveUninitialized: true
-}));
+// Root path: returns a list of possible requests.
+app.get('/api', function(req, res, next) {
+  var baseUri = `${req.protocol}:\/\/${req.get('host')}\/api`;
+  res.json({
+    token_url: `${baseUri}/token`,
+    user_urls: [
+      `${baseUri}/users`,
+      `${baseUri}/me`
+    ]
+  });
+});
 
-// app.use(session({
-//     secret: 'my-session-store',
-//     store: new mongoStore({
-//         url: 'mongodb://localhost/inform',
-//         collection : 'sessions'
-//     })
-// }));
+// Validation: check for correctly formed requests (content type).
+app.use(['/api/users', '/api/token'], function(req, res, next) {
+  if (req.get('Content-Type') !== 'application/json') {
+    errorHandler(
+      400,
+      'Request body must be JSON. Set your headers; see ' +
+      'http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17',
+      req, res
+    );
+  } else {
+    next();
+  }
+});
 
-// mount passport
-app.use(passport.initialize());
-app.use(passport.session());
+// Parsing and validation (replies with good errors for JSON parsing).
+app.use('/api', bodyParser.json());
 
-app.use(express.static(path.join(__dirname, 'public')));
+// User resource route (POST /users)
+require('./app/routes/userRoute')(app, errorHandler);
 
-require('./app/config/passport')(passport);
+// Token resource route (POST /token)
+require('./app/routes/tokenRoute')(app, errorHandler);
 
-require('./app/routes/index')(app, passport);
+// Authorized resource route (GET /me)
+require('./app/routes/meRoute')(app, errorHandler);
+
+// Authorized resource route (GET /me)
+require('./app/routes/searchRoute')(app, errorHandler);
+
+// Catches all 404 routes, either for non-existing routes
+// or routes that have passed to it.
+app.use(function(req, res) {
+  errorHandler(404, '', req, res)
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -117,6 +124,34 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
+
+
+function debugReq(req, res, next) {
+  debug('params:', req.params);
+  debug('query:',  req.query);
+  debug('body:',   req.body);
+  next();
+}
+
+function errorHandler(code, message, req, res) {
+  var title = '';
+  var responseJson = {};
+
+  res.status(code);
+  switch(code) {
+    case 400: title = '400 Bad Request';  break;
+    case 401: title = '401 Unauthorized'; break;
+    case 403: title = '403 Forbidden';    break;
+    case 404: title = '404 Not Found';    break;
+    case 422: title = '422 Unprocessable Entity';
+  }
+
+  responseJson.response = title;
+  if (message && message.length > 0) responseJson.message = message;
+
+  res.json(responseJson);
+}
+
 
 
 module.exports = app;
