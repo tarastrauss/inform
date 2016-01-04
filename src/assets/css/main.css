@@ -16,6 +16,12 @@ body {
   height: 100vh;
 }
 
+#liberty {
+  background-image: url("/assets/img/liberty.jpg");
+  background-size: cover;
+  min-height: 100vh;
+  margin-top: 25px;
+}
 #landing-mid {
   position: absolute;
   margin-left: 30%;
@@ -36,6 +42,22 @@ body {
 
 }
 
+.black {
+  height: 90px;
+  width: 100% !important;
+  background-size: cover;
+  background-color: black;
+  position: absolute;
+  margin-left: -15px;
+}
+
+.black-top {
+  float: top;
+}
+
+.black-bottom {
+  bottom: 0;
+}
 #quoteContainer {
     border-radius: 9px;
     /*border: 2px solid white;*/
@@ -60,7 +82,7 @@ body {
 }
 
 #nav-inform {
-  color: white;
+  color: black;
   text-alight: center;
   padding-top: 7px;
   margin-left: 15%;
@@ -71,6 +93,9 @@ body {
 
 .nav-options {
   display: inline-block;
+}
+#options {
+  margin-left: 10px;
 }
 .intro {
   margin: 10px;
@@ -111,6 +136,12 @@ body {
 
 #dropdown {
   margin-top: -7px;
+  font-family: 'Chelsea Market';
+}
+
+.chelsea {
+    font-family: 'Chelsea Market';
+
 }
 
 #login-buttons {
@@ -141,13 +172,35 @@ body {
   width: 55%;
   margin: 0 auto;
   margin-top: 12px;
-  height: 120px;
-  padding-top: 15px;
+  height: 180px;
+  padding: 5px;
   text-align: center;
-  background-color: #FAAC58;
-  border: 2px solid black;
+  /*background-color: #FAAC58;*/
+  background-color: white;
+  /*opacity: .50;*/
   border-radius: 5px;
-  box-shadow: 3px 3px 3px grey;
+  opacity:0;  /* make things invisible upon start */
+  -webkit-animation:fadeIn ease-in .5;  /* call our keyframe named fadeIn, use animattion ease-in and repeat it only 1 time */
+  -moz-animation:fadeIn ease-in .5;
+  animation:fadeIn ease-in .5;
+
+  -webkit-animation-fill-mode:forwards;  /* this makes sure that after animation is done we remain at the last keyframe value (opacity: 1)*/
+  -moz-animation-fill-mode:forwards;
+  animation-fill-mode:forwards;
+
+  -webkit-animation-duration:1.5s;
+  -moz-animation-duration:1.5s;
+  animation-duration:1.5s;
+
+}
+
+.inside-articles {
+  margin: 15px 20px 20px 20px;
+  border: 2px solid rgba(168, 168, 168, .7);
+  height: 140px;
+  border-radius: 5px;
+  padding-top: 15px;
+  box-shadow: 3px 3px 4px black;
 }
 
 .author {
@@ -155,7 +208,7 @@ body {
 }
 
 .sentiment {
-  position: absolute;
+
   color: grey;
   font-style: italic;
   float: right;

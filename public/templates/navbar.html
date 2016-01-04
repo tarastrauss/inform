@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default navbar-fixed-top navbar-inverse" >
+<nav class="navbar navbar-default navbar-fixed-top" >
   <div class="container-fluid">
     <div class="navbar-header navbar-brand">
       <!-- <span role="presentation" ui-sref-active="active"> -->
@@ -11,10 +11,10 @@
             </a>
             <ul class="uib-dropdown-menu" aria-labelledby="simple-dropdown" uib-collapse="!isCollapsed">
               <li role="menuitem">
-                <a href> Profile</a>
+                <a class="chelsea" href> Profile</a>
               </li>
               <li role="menuitem">
-                <a ng-click="dd.auth.logOut()" ui-sref="landingPage">Logout</a>
+                <a class="chelsea" ng-click="dd.auth.logOut()" ui-sref="landingPage">Logout</a>
               </li>
             </ul>
           </span>
@@ -24,23 +24,23 @@
 
     <div class="collapse navbar-collapse">
       <h2 class="nav navbar-nav play" id="nav-inform"> I N F O R M <small><em> yourself</em></small></h2>
-      <ul class="nav navbar-nav navbar-right">
+      <ul class="nav navbar-nav navbar-right" id="options">
         <li class="nav-options" role="presentation" ui-sref-active="active">
-          <a ui-sref="feedPage">News Feed</a>
+          <a class="chelsea" ui-sref="feedPage">News Feed</a>
         </li>
         <li class="nav-options" role="presentation" ui-sref-active="active">
-          <a ui-sref="candidatesPage">Candidates</a>
+          <a class="chelsea" ui-sref="candidatesPage">Candidates</a>
         </li>
         <li class="nav-options" role="presentation" ui-sref-active="active">
-          <a ui-sref="pollingPage">Votes</a>
+          <a class="chelsea" ui-sref="pollingPage">Votes</a>
         </li>
       </ul>
       <div id="search-nav" ng-controller="FeedController as fd" >
         <form class="navbar-form navbar-right" role="search" ng-submit="fd.search(fd.query)">
           <div class="form-group">
-            <input type="text" ng-model="fd.query" class="form-control" placeholder="Barak Obama">
+            <input type="text" ng-model="fd.query" class="form-control chelsea" placeholder="Barak Obama">
           </div>&nbsp;&nbsp;
-          <button type="submit" class="btn btn-warning">Search for News</button>
+          <button type="submit" class="btn btn-warning chelsea">Search for News</button>
         </form>
       </div>
     </div>

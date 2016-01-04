@@ -1,12 +1,17 @@
+
+<div id="liberty" ng-controller="FeedController as vm">
 <br><br><br>
-<div ng-controller="FeedController as vm">
+  <!-- <div class=" chelsea article "> <div class="inside-articles"> some title </div> </div> -->
+
 
   <div class="articles" ng-repeat="article in vm.searchService.result.result.docs">
-    <div class="article">
-      <a target="_blank" href="{{article.source.enriched.url.url}}" ng-click="vm.addPoints(article.source.enriched.url.enrichedTitle.docSentiment.type)"> {{article.source.enriched.url.title}}</a>
-      <div class="author" ng-if="article.source.enriched.url.author && article.source.enriched.url.author != 'Authors'"> {{article.source.enriched.url.author}} </div>
-      <div> {{article.source.enriched.url.publicationDate.date | amDateFormat:'MMMM Do YYYY'}} </div>
-      <div class="sentiment"> {{article.source.enriched.url.enrichedTitle.docSentiment.type}} </div>
+    <div class="inside-articles">
+      <div class="article">
+        <a class="chelsea" target="_blank" href="{{article.source.enriched.url.url}}" ng-click="vm.addPoints(article.source.enriched.url.enrichedTitle.docSentiment.type)"> {{article.source.enriched.url.title}}</a>
+        <div class="author" ng-if="article.source.enriched.url.author && article.source.enriched.url.author != 'Authors'"> {{article.source.enriched.url.author}} </div>
+        <div> {{article.source.enriched.url.publicationDate.date | amDateFormat:'MMMM Do YYYY'}} </div>
+        <div class="sentiment"> {{article.source.enriched.url.enrichedTitle.docSentiment.type}} </div>
+      </div>
     </div>
   </div>
 </div>
