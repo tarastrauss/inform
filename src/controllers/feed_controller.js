@@ -24,6 +24,7 @@
 
     vm.search = function (param) {
       $log.debug("Hit feed search");
+      vm.query ="";
       searchService.searchCall(param)
         .then(function() {
           //vm.searchService = searchService;

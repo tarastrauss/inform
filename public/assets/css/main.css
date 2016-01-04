@@ -3365,7 +3365,7 @@ body {
 #liberty {
   background-image: url("/assets/img/liberty.jpg");
   background-size: cover;
-  min-height: 100vh;
+  height: 2400px;
   margin-top: 25px;
 }
 #landing-mid {
@@ -3518,8 +3518,8 @@ body {
   width: 55%;
   margin: 0 auto;
   margin-top: 12px;
-  height: 180px;
-  padding: 5px;
+  height: 200px;
+  padding: 10px;
   text-align: center;
   /*background-color: #FAAC58;*/
   background-color: white;
@@ -3543,23 +3543,31 @@ body {
 .inside-articles {
   margin: 15px 20px 20px 20px;
   border: 2px solid rgba(168, 168, 168, .7);
-  height: 140px;
+  height: 150px;
   border-radius: 5px;
   padding-top: 15px;
   box-shadow: 3px 3px 4px black;
+  position: relative;
 }
 
 .author {
   font-style: italic;
 }
 
-.sentiment {
+.title {
+  font-size: 20px;
+  opacity: 1;
+}
 
+.sentiment {
   color: grey;
   font-style: italic;
-  float: right;
+  position: absolute;
+  /*margin: 0 0;*/
+  /*float: right;*/
   bottom: 0;
-  margin: 0 0;
-  margin-right: 8px;
+  right: 0;
+  margin: 0 10px 10px 0;
+  /*margin-right: 8px;*/
 
 }

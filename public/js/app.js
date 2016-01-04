@@ -4328,6 +4328,7 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 
     vm.search = function (param) {
       $log.debug("Hit feed search");
+      vm.query ="";
       searchService.searchCall(param)
         .then(function() {
           //vm.searchService = searchService;
