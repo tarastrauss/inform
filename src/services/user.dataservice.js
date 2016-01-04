@@ -18,7 +18,8 @@
       clear:           clear,
       currentUserData: currentUserData,
       currentUser:     {},
-      updatePoints:     updatePoints
+      updatePoints:     updatePoints,
+      sendPointInfo:   sendPointInfo
     };
 
     return user;
@@ -80,6 +81,25 @@
         $log.log('user is', user.currentUser);
         return user.currentUser;
       });
+    }
+
+    function sendPointInfo(sentiment, param) {
+      $log.debug("Attempting to send point info of parameter: ", param, ' and sentiment: ', sentiment);
+
+      return $http({
+        url:     "/api/me",
+        method:  "POST",
+        headers: {"Content-Type": "application/json"},
+        data: angular.toJson({
+          searchParam: param,
+          articleSentiment: sentiment
+        })
+      }).then(function() {
+          currentUserData();
+          // $log.log('the updated data is', data.data);
+          // authService.currentUser = data.data;
+      });
+
     }
   }
 

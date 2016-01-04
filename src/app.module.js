@@ -1,5 +1,5 @@
 (function() {
-  angular.module('informApp', ["ui.router", "ngAnimate", "ui.bootstrap"]);
+  angular.module('informApp', ["ui.router", "ngAnimate", "ui.bootstrap", "angularMoment"]);
 
 
 })();

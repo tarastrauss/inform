@@ -6,8 +6,9 @@ mongoose.Promise = Promise;
 
 var querySchema = new mongoose.Schema({
   queryInput: String,
-  postiveClick: Number,
-  negativeClick: Number
+  negativeClick: Number,
+  positiveClick: Number,
+  neutralClick: Number
 });
 
 var friendSchema = new mongoose.Schema({

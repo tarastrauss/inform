@@ -36,15 +36,39 @@ module.exports = function(app, errorHandler) {
     validateToken,
 
     function(req, res, next) {
+      var found = false;
       User.findOne({email: req.decoded.email}, function(err, currentUser) {
-          currentUser.points = req.body.points;
-          currentUser.save(function(err){
-            res.json({
-              success: true,
-              message: 'Successfully updated user points.',
-              data: currentUser
-            });
+        currentUser.queries.forEach(function(query){
+          if (query.queryInput == req.body.searchParam) {
+            found = true;
+            if (req.body.articleSentiment == 'positive') {
+              query.positiveClick++;
+              updateUserPoints(query, currentUser);
+            } else if (req.body.articleSentiment == 'negative') {
+              query.negativeClick++;
+              updateUserPoints(query, currentUser);
+            } else {
+              query.neutralClick++;
+            }
+          }
+        });
+        if (!found) {
+          currentUser.queries.push({
+            queryInput: req.body.searchParam,
+            positiveClick: req.body.articleSentiment == 'positive'? 1 : 0,
+            negativeClick: req.body.articleSentiment == 'negative'? 1 : 0,
+            neutralClick: req.body.articleSentiment == 'neutral'? 1 : 0
           });
+          updateUserPointsByNewSearch(currentUser);
+        }
+        currentUser.save(function(err){
+          res.json({
+            success: true,
+            message: 'Successfully updated user points.',
+            data: currentUser
+          });
+        });
+      });
 
       // User.findById(req.user.id).exec()
       //   .then(function(user) {
@@ -58,7 +82,6 @@ module.exports = function(app, errorHandler) {
       //     });
       //   });
     });
-  });
 
 
   // *** VALIDATIONS ***
@@ -127,6 +150,18 @@ module.exports = function(app, errorHandler) {
         next();
       }
     });
+  }
+
+  function updateUserPoints (query, currentUser) {
+    if (query.positiveClick == query.negativeClick) {
+      currentUser.points++;
+    } else if (query.positiveClick - query.negativeClick > 5 || query.negativeClick - query.positiveClick > 5){
+      currentUser.points--;
+    }
+  }
+
+  function updateUserPointsByNewSearch (currentUser) {
+    currentUser.points++;
   }
 
 };

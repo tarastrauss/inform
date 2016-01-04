@@ -1,6 +1,7 @@
 var jwt  = require('jsonwebtoken'),
     User = require('../models/user'),
-    request = require('request');
+    request = require('request'),
+    moment = require('moment');
 
 
 module.exports = function(app, errorHandler) {
@@ -9,7 +10,7 @@ module.exports = function(app, errorHandler) {
 
         // validations
     checkForToken,
-   validateToken,
+    validateToken,
 
     function(req, res, next) {
       // console.log('Request made to /search with token:', req.decoded);
@@ -26,14 +27,14 @@ module.exports = function(app, errorHandler) {
       //   });
 
       var uri = 'http://gateway-a.watsonplatform.net/calls/data/GetNews?apikey=' +
-        process.env.ALCHEMY_KEY + '&outputMode=json&start=now-1d&end=now&count=10&q.enriched.url.enrichedTitle.keywords.keyword.text=' +
-        req.body.parameter + '&return=enriched.url.url,enriched.url.title,enriched.url.enrichedTitle.docSentiment';
+        process.env.ALCHEMY_KEY + '&outputMode=json&start=now-1d&end=now&count=20&q.enriched.url.enrichedTitle.keywords.keyword.text=' +
+        req.body.parameter + '&return=enriched.url.url,enriched.url.author,enriched.url.publicationDate.date,enriched.url.title,enriched.url.enrichedTitle.docSentiment';
 
       request.get(uri, function(err, response, body) {
         var body = JSON.parse(body);
 
         // Call res.send in the API request's callback*!
-        res.send(body);
+        res.json(body);
       });
 
     });
