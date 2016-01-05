@@ -2,11 +2,19 @@
   <br><br><br>
   <div class="container-fluid" id="friends">
     <h2 class="chelsea" id="friends-title">{{vm.user.currentUser.firstName}}'s Friends</h2>
+    <div id="current-friends" ng-repeat="friend in vm.user.currentUser.friends">
+      <div class="friends-info chelsea"> {{friend.firstName}} {{friend.lastName}} ( {{friend.points}} ) </div>
+    </div>
     <form id="friend-search" role="search" ng-submit="vm.friendSearch(vm.friend)">
       <div class="form-group">
         <input type="text" ng-model="vm.friend" class="form-control chelsea" id="friend-input" placeholder="Email">&nbsp;&nbsp;
       <button type="submit" class="btn btn-warning chelsea" id="friend-button">Search for Friends</button>
       </div>
     </form>
+    <div id="friend-result" ng-if="vm.user.friend.firstName">
+      <span id="friend-name" class="chelsea"> {{vm.user.friend.firstName}} {{vm.user.friend.lastName}} ( {{vm.user.friend.points}} ) </span>
+      <button type="submit" class="btn chelsea" id="add-friend" ng-click="vm.followFriend(vm.user.friend._id)">Follow</button>
+    </div>
+    <div id="no-friend" class="chelsea" ng-if="vm.user.friend == 'User cannot be found'"> Sorry, that e-mail address cannot be found! </div>
   </div>
 </div>

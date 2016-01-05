@@ -3902,6 +3902,8 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
   angular.module('informApp', ["ui.router", "ngAnimate", "ui.bootstrap", "angularMoment"]);
 
 
+
+
 })();
 
 (function() {
@@ -4083,31 +4085,36 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
           //$state.reload();
           //$state.go('feedPage');
         });
-        // }).then(function() {
-        //  // $scope.$evalAsync();
-        // });
-      // return $http({
-      //   url:     "/api/search",
-      //   method:  "POST",
-      //   headers: {"Content-Type": "application/json"},
-      //   data: angular.toJson({
-      //     parameter: param
-      //   })
-      // }).then(function(data) {
-      //   // vm.user.currentUser = data.data.data;
-      //   vm.articles = data.data.result.docs;
-      //   $log.log('the articles are', vm.articles);
-      //   //$log.log('After searching, the user data is', vm.user.currentUser);
-      //   return vm.articles;
-      //   // return vm.user.currentUser;
-      // });
     }
 
     vm.addPoints = function (sentiment) {
       vm.user.sendPointInfo(sentiment, vm.searchService.param);
     }
 
+    vm.currentPage = 0;
+    vm.pageSize = 10;
+    // vm.data = [];
+    vm.numberOfPages=function(){
+        return Math.ceil(vm.searchService.result.result.docs.length/vm.pageSize);
+    }
+    // for (var i=0; i<45; i++) {
+    //     vm.data.push("Item "+i);
+    // }
+
+
+//We already have a limitTo filter built-in to angular,
+//let's make a startFrom filter
+
+
   }
+
+  angular.module('informApp').filter('startFrom', function() {
+    return function(input, start) {
+        start = +start; //parse to int
+        return input.slice(start);
+    }
+  });
+
 })();
 
 (function() {
@@ -4311,6 +4318,11 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
       vm.user.searchFriend(friend);
     }
 
+    vm.followFriend = function(id) {
+      $log.debug('Hit follow friend');
+      vm.user.followUser(id);
+    }
+
   }
 })();
 
@@ -4509,7 +4521,9 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
       currentUser:     {},
       updatePoints:     updatePoints,
       sendPointInfo:   sendPointInfo,
-      searchFriend:    searchFriend
+      searchFriend:    searchFriend,
+      friend:          {},
+      followUser:      followUser
     };
 
     return user;
@@ -4594,12 +4608,33 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
     function searchFriend(friend) {
      $log.debug("Attempting to search database for friend: ", friend);
       return $http({
-        url:     "/api/users",
-        method:  "GET",
-        headers: {"email": friend}
+        url:     "/api/searchUsers",
+        method:  "POST",
+        headers: {"Content-Type": "application/json"},
+        data: angular.toJson({
+         "email": friend
+        })
+      }).then(function(data) {
+        user.friend = data.data;
+        $log.log('friend is', data.data);
+        return user.friend;
+      });
+    }
+
+    function followUser(id) {
+      $log.debug("Attempting to add user to friend list with id: ", id);
+      return $http({
+        url:     "/api/followUser",
+        method:  "POST",
+        headers: {"Content-Type": "application/json"},
+        data: angular.toJson({
+         "id": id
+        })
       }).then(function(data) {
         user.currentUser = data.data.data;
-        $log.log('user is', user.currentUser);
+        $log.log('User is', data.data.data);
+        $log.debug(data.data.message);
+        user.friend = {};
         return user.currentUser;
       });
     }

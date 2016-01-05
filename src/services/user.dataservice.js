@@ -20,7 +20,9 @@
       currentUser:     {},
       updatePoints:     updatePoints,
       sendPointInfo:   sendPointInfo,
-      searchFriend:    searchFriend
+      searchFriend:    searchFriend,
+      friend:          {},
+      followUser:      followUser
     };
 
     return user;
@@ -105,12 +107,33 @@
     function searchFriend(friend) {
      $log.debug("Attempting to search database for friend: ", friend);
       return $http({
-        url:     "/api/users",
-        method:  "GET",
-        headers: {"email": friend}
+        url:     "/api/searchUsers",
+        method:  "POST",
+        headers: {"Content-Type": "application/json"},
+        data: angular.toJson({
+         "email": friend
+        })
+      }).then(function(data) {
+        user.friend = data.data;
+        $log.log('friend is', data.data);
+        return user.friend;
+      });
+    }
+
+    function followUser(id) {
+      $log.debug("Attempting to add user to friend list with id: ", id);
+      return $http({
+        url:     "/api/followUser",
+        method:  "POST",
+        headers: {"Content-Type": "application/json"},
+        data: angular.toJson({
+         "id": id
+        })
       }).then(function(data) {
         user.currentUser = data.data.data;
-        $log.log('user is', user.currentUser);
+        $log.log('User is', data.data.data);
+        $log.debug(data.data.message);
+        user.friend = {};
         return user.currentUser;
       });
     }

@@ -37,29 +37,34 @@
           //$state.reload();
           //$state.go('feedPage');
         });
-        // }).then(function() {
-        //  // $scope.$evalAsync();
-        // });
-      // return $http({
-      //   url:     "/api/search",
-      //   method:  "POST",
-      //   headers: {"Content-Type": "application/json"},
-      //   data: angular.toJson({
-      //     parameter: param
-      //   })
-      // }).then(function(data) {
-      //   // vm.user.currentUser = data.data.data;
-      //   vm.articles = data.data.result.docs;
-      //   $log.log('the articles are', vm.articles);
-      //   //$log.log('After searching, the user data is', vm.user.currentUser);
-      //   return vm.articles;
-      //   // return vm.user.currentUser;
-      // });
     }
 
     vm.addPoints = function (sentiment) {
       vm.user.sendPointInfo(sentiment, vm.searchService.param);
     }
 
+    vm.currentPage = 0;
+    vm.pageSize = 10;
+    // vm.data = [];
+    vm.numberOfPages=function(){
+        return Math.ceil(vm.searchService.result.result.docs.length/vm.pageSize);
+    }
+    // for (var i=0; i<45; i++) {
+    //     vm.data.push("Item "+i);
+    // }
+
+
+//We already have a limitTo filter built-in to angular,
+//let's make a startFrom filter
+
+
   }
+
+  angular.module('informApp').filter('startFrom', function() {
+    return function(input, start) {
+        start = +start; //parse to int
+        return input.slice(start);
+    }
+  });
+
 })();

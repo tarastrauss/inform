@@ -27,7 +27,7 @@ module.exports = function(app, errorHandler) {
       //   });
 
       var uri = 'http://gateway-a.watsonplatform.net/calls/data/GetNews?apikey=' +
-        process.env.ALCHEMY_KEY + '&outputMode=json&start=now-1d&end=now&count=20&q.enriched.url.enrichedTitle.keywords.keyword.text=' +
+        process.env.ALCHEMY_KEY + '&outputMode=json&start=now-1d&end=now&count=40&q.enriched.url.enrichedTitle.keywords.keyword.text=' +
         req.body.parameter + '&return=enriched.url.url,enriched.url.author,enriched.url.publicationDate.date,enriched.url.title,enriched.url.enrichedTitle.docSentiment';
 
       request.get(uri, function(err, response, body) {

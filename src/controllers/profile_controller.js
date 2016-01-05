@@ -18,5 +18,10 @@
       vm.user.searchFriend(friend);
     }
 
+    vm.followFriend = function(id) {
+      $log.debug('Hit follow friend');
+      vm.user.followUser(id);
+    }
+
   }
 })();

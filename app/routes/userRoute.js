@@ -1,5 +1,6 @@
 var moment = require('moment'),
-    User   = require('../models/user');
+    User   = require('../models/user'),
+    jwt  = require('jsonwebtoken');
 
 // In order to simplify our process, we will handle the request
 // inline here, instead of passing to controller files.
@@ -36,19 +37,71 @@ module.exports = function(app, errorHandler) {
       });
   });
 
-  app.get('/api/users',
+  app.post('/api/searchUsers',
 
     checkForToken,
     validateToken,
 
     function(req, res, next) {
-      var searchEmail = req.get('email');
+      // var searchEmail = req.get('email');
+      var searchEmail = req.body.email;
       User.findOne({email: searchEmail}, function(err, user){
           if (user) {
             res.json(user);
           }
           else {
             res.send('User cannot be found');
+          }
+    });
+  });
+
+  app.post('/api/followUser',
+
+    checkForToken,
+    validateToken,
+
+    function(req, res, next) {
+      // var searchEmail = req.get('email');
+      var searchEmail = req.body.email;
+      var foundFriend = false;
+      User.findById(req.body.id, function(err, friend){
+          if (friend) {
+            User.findOne({email: req.decoded.email}).exec()
+            .then(function(user) {
+              user.friends.forEach(function(currentFriend) {
+                if (currentFriend.userId == friend._id) {
+                  foundFriend = true;
+                }
+              });
+            // })
+            // .then(function(user) {
+              if (!foundFriend) {
+                user.friends.push({
+                  firstName: friend.firstName,
+                  lastName: friend.lastName,
+                  userId: friend._id,
+                  points: friend.points
+                });
+                user.save(function(err){
+                  res.json({
+                    success: true,
+                    message: 'Successfully added friend.',
+                    data: user
+                  });
+                });
+              } else {
+                  res.json({
+                    message: 'Friend already added',
+                    data: user
+                  });
+              }
+            });
+          }
+          else {
+            res.json({
+              message: 'Friend now found',
+              data: user
+            });
           }
     });
   });
