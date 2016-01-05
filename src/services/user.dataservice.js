@@ -44,6 +44,11 @@
         })
       }).then(function() {
           currentUserData();
+          // user.email = "";
+          user.first_name = "";
+          user.last_name="";
+          // user.password="";
+          user.dob = new Date (1990, 10, 1);
       });
     }
 
