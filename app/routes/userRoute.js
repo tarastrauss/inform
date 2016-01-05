@@ -36,6 +36,24 @@ module.exports = function(app, errorHandler) {
       });
   });
 
+  app.get('/api/users',
+
+    checkForToken,
+    validateToken,
+
+    function(req, res, next) {
+      var searchEmail = req.get('email');
+      User.findOne({email: searchEmail}, function(err, user){
+          if (user) {
+            res.json(user);
+          }
+          else {
+            res.send('User cannot be found');
+          }
+    });
+  });
+
+
 
 
 
@@ -119,6 +137,72 @@ module.exports = function(app, errorHandler) {
           next();
         }
       });
+  }
+
+  function checkForToken(req, res, next) {
+    var authorizationHeader = req.get('Authorization'),
+        method,
+        token;
+
+    // conditionally set all the variables...
+    if (authorizationHeader) authorizationHeader = authorizationHeader.split(' ');
+    if (authorizationHeader && authorizationHeader.length > 0) {
+      method = authorizationHeader[0];
+    }
+    if (authorizationHeader && authorizationHeader.length > 1) {
+      token = authorizationHeader[1];
+    }
+
+    if (!authorizationHeader) {
+      errorHandler(
+        400,
+        'Authorization failed (invalid_request): missing necessary header. ' +
+        'See https://tools.ietf.org/html/rfc6750#section-2.1',
+        req, res
+      );
+    } else
+    if (method.toLowerCase() !== 'bearer' && method.toLowerCase() !== 'token') {
+      errorHandler(
+        400,
+        'Authorization failed (invalid_request): Authorization method ' +
+        'must be \'bearer\' or \'token.\'',
+        req, res
+      );
+    } else
+    if (!token) {
+      errorHandler(
+        401,
+        'Authorization failed (invalid_token): token missing.',
+        req, res
+      );
+    } else {
+      // add the token to the request
+      req.token = token;
+      next();
+    }
+  }
+
+  function validateToken(req, res, next) {
+    jwt.verify(req.token, app.get('secret-key'), function(err, decoded) {
+      if (err && err.name === 'TokenExpiredError') {
+        errorHandler(
+          401,
+          'Authorization failed (invalid_token): token epired at ' + err.expiredAt + '.',
+          req, res
+        );
+      } else
+      if (err) {
+        errorHandler(
+          401,
+          'Authorization failed (invalid_token): token malformed.',
+          req, res
+        );
+      } else {
+        // add the decoded token to the request
+        req.decoded = decoded;
+        next();
+      }
+    });
   }
 
   // function checkUserExists(req, res, next) {

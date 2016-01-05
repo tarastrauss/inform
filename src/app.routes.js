@@ -21,7 +21,29 @@
       })
       .state("profilePage", {
         url: "/profile",
-        templateUrl:  "/templates/profile.html"
+        views: {
+          nav: {
+            templateUrl: '/templates/navbar.html'
+          },
+          content: {
+            templateUrl: "/templates/profile.html"
+          }
+        },
+        controller: "ProfileController",
+        controllerAs: "vm",
+      })
+      .state("friendsPage", {
+        url: "/friends",
+        views: {
+          nav: {
+            templateUrl: '/templates/navbar.html'
+          },
+          content: {
+            templateUrl: "/templates/friends.html"
+          }
+        },
+        controller: "ProfileController",
+        controllerAs: "vm",
       })
       .state("feedPage", {
         url: "/feed",

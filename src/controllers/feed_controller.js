@@ -24,8 +24,10 @@
 
     vm.search = function (param) {
       $log.debug("Hit feed search");
+      $state.go('feedPage');
       vm.query ="";
-      searchService.searchCall(param)
+      var lowerParam = angular.lowercase(param)
+      searchService.searchCall(lowerParam)
         .then(function() {
           //vm.searchService = searchService;
         //           body.result.docs.forEach(function(date){

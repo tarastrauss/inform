@@ -225,3 +225,86 @@ body {
   /*margin-right: 8px;*/
 
 }
+
+#profile, #friends {
+  height: 100%;
+  width: 70%;
+  margin: 0 auto;
+  padding-top: 20px;
+  background-color: white;
+  /*opacity: .50;*/
+  border-radius: 5px;
+  opacity:0;  /* make things invisible upon start */
+  -webkit-animation:fadeIn ease-in .7;  /* call our keyframe named fadeIn, use animattion ease-in and repeat it only 1 time */
+  -moz-animation:fadeIn ease-in .7;
+  animation:fadeIn ease-in .7;
+
+  -webkit-animation-fill-mode:forwards;  /* this makes sure that after animation is done we remain at the last keyframe value (opacity: 1)*/
+  -moz-animation-fill-mode:forwards;
+  animation-fill-mode:forwards;
+
+  -webkit-animation-duration:1.5s;
+  -moz-animation-duration:1.5s;
+  animation-duration:1.5s;
+}
+
+#profile-title, #friends-title {
+  opacity: 1;
+  color: black;
+  text-align: center;
+
+}
+#profile-info {
+  width: 50%;
+  margin: 0 auto;
+  height: 150px;
+  margin-top: 30px;
+}
+.user-category {
+  font-size: 18px;
+  opacity: 1;
+  color: black;
+  text-align: left;
+  width: 160px;
+  display: inline-block;
+  padding-left: 45px;
+}
+.user-info {
+  display: inline-block;
+  margin-left: 35px;
+  text-align: left;
+  font-size: 18px;
+  opacity: 1;
+  color: black;
+}
+#query-info {
+  width: 50%;
+  margin: 0 auto;
+  opacity: 1;
+  color: black;
+}
+#query-title{
+  text-align: center;
+  margin-bottom: 20px;
+}
+.query-param {
+  font-style: bold;
+  font-size: 16px;
+  text-align: center;
+  margin-bottom: 8px;
+}
+.red {
+  color: red;
+}
+
+#friend-search {
+  width: 50%;
+  margin: 0 auto;
+  opacity: 1;
+}
+
+#friend-input {
+  width: 200px;
+  display: inline-block;
+    opacity: 1;
+}

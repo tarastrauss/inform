@@ -3927,7 +3927,29 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
       })
       .state("profilePage", {
         url: "/profile",
-        templateUrl:  "/templates/profile.html"
+        views: {
+          nav: {
+            templateUrl: '/templates/navbar.html'
+          },
+          content: {
+            templateUrl: "/templates/profile.html"
+          }
+        },
+        controller: "ProfileController",
+        controllerAs: "vm",
+      })
+      .state("friendsPage", {
+        url: "/friends",
+        views: {
+          nav: {
+            templateUrl: '/templates/navbar.html'
+          },
+          content: {
+            templateUrl: "/templates/friends.html"
+          }
+        },
+        controller: "ProfileController",
+        controllerAs: "vm",
       })
       .state("feedPage", {
         url: "/feed",
@@ -3968,286 +3990,6 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
   function configure($httpProvider) {
     // console.log("Adding tokenSigningService interceptor.");
     $httpProvider.interceptors.push("tokenSigningService");
-  }
-
-})();
-
-(function() {
-  "use strict";
-
-  angular
-    .module("informApp")
-    .factory("authService", authService);
-
-  authService.$inject = ["$log", "$http", "tokenService", '$state', 'userDataService'];
-
-  function authService($log, $http, tokenService, $state, userDataService) {
-    var auth = {
-      email:      "",
-      password:   "",
-      logIn:      logIn,
-      logOut:     logOut,
-      clear:      clear,
-      isLoggedIn: (tokenService.get() !== null),
-      currentUser: currentUser
-    };
-    var currentUser;
-
-    return auth;
-
-    function logIn() {
-      $log.debug("Logging in with credentials:", {email: auth.email, password: auth.password});
-
-      return $http({
-        url:     "/api/token",
-        method:  "POST",
-        headers: {"Content-Type": "application/json"},
-        data: angular.toJson({
-          email:    auth.email,
-          password: auth.password,
-        })
-      }).then(function(data, status, headers, config) {
-        tokenService.set(data.data.token)
-        auth.isLoggedIn = true;
-        // userDataService.currentUserData();
-        currentUser = data.data.user;
-        userDataService.currentUser = data.data.user;
-        $log.log('after logging in, the current user is: ', currentUser);
-        return data;
-      });
-    }
-
-
-    function logOut() {
-      tokenService.clear();
-      auth.isLoggedIn = false;
-      $log.log('logged out!');
-      $state.go('landingPage');
-      userDataService.currentUser = "";
-    }
-
-    function clear() {
-      auth.email    = "";
-      auth.password = "";
-
-    }
-  }
-
-})();
-
-(function() {
-  "use strict";
-
-  angular
-    .module("informApp")
-    .factory("searchService", searchService);
-
-    searchService.$inject = ['$http', '$log'];
-
-    function searchService ($http, $log) {
-
-      var search = {
-        searchCall:   searchCall,
-        result:     [],
-        param: ""
-      }
-
-      return search;
-
-
-      function searchCall(param){
-        search.param = param;
-        $log.debug("Making call to server for API search");
-        return $http({
-          url:     "/api/search",
-          method:  "POST",
-          headers: {"Content-Type": "application/json"},
-          data: angular.toJson({
-            parameter: param
-          })
-        }).then(function(data) {
-          // vm.user.currentUser = data.data.data;
-          search.result = data.data;
-          $log.log('the articles are', search.result);
-          //$log.log('After searching, the user data is', vm.user.currentUser);
-          return search.result;
-          // return vm.user.currentUser;
-        });
-
-      }
-    }
-
-
-})();
-
-(function() {
-  "use strict";
-
-  angular
-    .module("informApp")
-    .factory("tokenService", tokenService);
-
-  tokenService.$inject = ["$log", "$window"];
-
-  function tokenService($log, $window) {
-    var token = {
-      set:   set,
-      get:   get,
-      clear: clear,
-      log:   log
-    }
-
-    return token;
-
-    function set(value) {
-      $window.localStorage.setItem('token', value);
-    }
-
-    function get() {
-      return $window.localStorage.getItem('token');
-    }
-
-    function clear() {
-      $window.localStorage.removeItem('token');
-    }
-
-    function log() {
-      $log.log("Token: ", token.get());
-    }
-  }
-
-})();
-
-(function() {
-  "use strict";
-
-  angular
-    .module("informApp")
-    .factory("tokenSigningService", tokenSigningService);
-
-  tokenSigningService.$inject = ["tokenService", "$log"];
-
-  function tokenSigningService(tokenService, $log) {
-    return {
-      request: signWithToken
-    };
-
-    function signWithToken(request) {
-      var token = tokenService.get();
-      if (token) {
-        $log.debug("Token exists; signing request.");
-        request.headers['Authorization'] = `Bearer ${token}`;
-      }
-
-      return request;
-    }
-  }
-
-})();
-
-(function() {
-  "use strict";
-
-  angular
-    .module("informApp")
-    .factory("userDataService", userDataService);
-
-  userDataService.$inject = ["$log", "$http", '$rootScope'];
-
-  function userDataService($log, $http, $rootScope) {
-    var user = {
-      email:           "",
-      first_name:      "",
-      last_name:       "",
-      password:        "",
-      dob:             new Date(1990, 10, 1),
-      create:          create,
-      clear:           clear,
-      currentUserData: currentUserData,
-      currentUser:     {},
-      updatePoints:     updatePoints,
-      sendPointInfo:   sendPointInfo
-    };
-
-    return user;
-
-    function create() {
-      $log.debug("Attempting to create:", user);
-
-      return $http({
-        url:     "/api/users",
-        method:  "POST",
-        headers: {"Content-Type": "application/json"},
-        data: angular.toJson({
-          email:        user.email,
-          first_name:   user.first_name,
-          last_name:    user.last_name,
-          password:     user.password,
-          points:       10,
-          dob:          user.dob.toISOString()
-        })
-      }).then(function() {
-          currentUserData();
-      });
-    }
-
-    function updatePoints(newPoints) {
-      $log.debug("Attempting to update the level of :", user.currentUser.first_name);
-
-      return $http({
-        url:     "/api/me",
-        method:  "POST",
-        headers: {"Content-Type": "application/json"},
-        data: angular.toJson({
-          points: newPoints
-        })
-      }).then(function() {
-          currentUserData();
-          // $log.log('the updated data is', data.data);
-          // authService.currentUser = data.data;
-      });
-    }
-
-    function clear() {
-      $log.debug("Clearing user.");
-
-      user.email       = "";
-      user.first_name  = "";
-      user.last_name   = "";
-      user.password    = "";
-      user.dob         = "";
-    }
-
-    function currentUserData() {
-      $log.debug("Retrieving current user data.");
-      return $http({
-        url:     "/api/me",
-        method:  "GET"
-      }).then(function(data) {
-        user.currentUser = data.data.data;
-        $log.log('user is', user.currentUser);
-        return user.currentUser;
-      });
-    }
-
-    function sendPointInfo(sentiment, param) {
-      $log.debug("Attempting to send point info of parameter: ", param, ' and sentiment: ', sentiment);
-
-      return $http({
-        url:     "/api/me",
-        method:  "POST",
-        headers: {"Content-Type": "application/json"},
-        data: angular.toJson({
-          searchParam: param,
-          articleSentiment: sentiment
-        })
-      }).then(function() {
-          currentUserData();
-          // $log.log('the updated data is', data.data);
-          // authService.currentUser = data.data;
-      });
-
-    }
   }
 
 })();
@@ -4328,8 +4070,10 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 
     vm.search = function (param) {
       $log.debug("Hit feed search");
+      $state.go('feedPage');
       vm.query ="";
-      searchService.searchCall(param)
+      var lowerParam = angular.lowercase(param)
+      searchService.searchCall(lowerParam)
         .then(function() {
           //vm.searchService = searchService;
         //           body.result.docs.forEach(function(date){
@@ -4545,4 +4289,320 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
         $uibModalInstance.close();
       }
     };
+})();
+
+(function() {
+  "use strict";
+
+  angular
+      .module("informApp")
+      .controller("ProfileController", ProfileController);
+
+  ProfileController.$inject = ["$log", "userDataService", "$http", "searchService", "$state", '$scope'];
+
+  function ProfileController($log, userDataService, $http, searchService, $state, $scope) {
+    var vm = this;
+
+    vm.user = userDataService;
+
+    vm.friendSearch = function(friend) {
+      $log.debug("Hit friend search");
+      vm.friend = "";
+      vm.user.searchFriend(friend);
+    }
+
+  }
+})();
+
+(function() {
+  "use strict";
+
+  angular
+    .module("informApp")
+    .factory("authService", authService);
+
+  authService.$inject = ["$log", "$http", "tokenService", '$state', 'userDataService'];
+
+  function authService($log, $http, tokenService, $state, userDataService) {
+    var auth = {
+      email:      "",
+      password:   "",
+      logIn:      logIn,
+      logOut:     logOut,
+      clear:      clear,
+      isLoggedIn: (tokenService.get() !== null),
+      currentUser: currentUser
+    };
+    var currentUser;
+
+    return auth;
+
+    function logIn() {
+      $log.debug("Logging in with credentials:", {email: auth.email, password: auth.password});
+
+      return $http({
+        url:     "/api/token",
+        method:  "POST",
+        headers: {"Content-Type": "application/json"},
+        data: angular.toJson({
+          email:    auth.email,
+          password: auth.password,
+        })
+      }).then(function(data, status, headers, config) {
+        tokenService.set(data.data.token)
+        auth.isLoggedIn = true;
+        // userDataService.currentUserData();
+        currentUser = data.data.user;
+        userDataService.currentUser = data.data.user;
+        $log.log('after logging in, the current user is: ', currentUser);
+        return data;
+      });
+    }
+
+
+    function logOut() {
+      tokenService.clear();
+      auth.isLoggedIn = false;
+      $log.log('logged out!');
+      $state.go('landingPage');
+      userDataService.currentUser = "";
+    }
+
+    function clear() {
+      auth.email    = "";
+      auth.password = "";
+
+    }
+  }
+
+})();
+
+(function() {
+  "use strict";
+
+  angular
+    .module("informApp")
+    .factory("searchService", searchService);
+
+    searchService.$inject = ['$http', '$log'];
+
+    function searchService ($http, $log) {
+
+      var search = {
+        searchCall:   searchCall,
+        result:     [],
+        param: ""
+      }
+
+      return search;
+
+
+      function searchCall(param){
+        search.param = param;
+        $log.debug("Making call to server for API search of ", param);
+        return $http({
+          url:     "/api/search",
+          method:  "POST",
+          headers: {"Content-Type": "application/json"},
+          data: angular.toJson({
+            parameter: param
+          })
+        }).then(function(data) {
+          // vm.user.currentUser = data.data.data;
+          search.result = data.data;
+          $log.log('the articles are', search.result);
+          //$log.log('After searching, the user data is', vm.user.currentUser);
+          return search.result;
+          // return vm.user.currentUser;
+        });
+
+      }
+    }
+
+
+})();
+
+(function() {
+  "use strict";
+
+  angular
+    .module("informApp")
+    .factory("tokenService", tokenService);
+
+  tokenService.$inject = ["$log", "$window"];
+
+  function tokenService($log, $window) {
+    var token = {
+      set:   set,
+      get:   get,
+      clear: clear,
+      log:   log
+    }
+
+    return token;
+
+    function set(value) {
+      $window.localStorage.setItem('token', value);
+    }
+
+    function get() {
+      return $window.localStorage.getItem('token');
+    }
+
+    function clear() {
+      $window.localStorage.removeItem('token');
+    }
+
+    function log() {
+      $log.log("Token: ", token.get());
+    }
+  }
+
+})();
+
+(function() {
+  "use strict";
+
+  angular
+    .module("informApp")
+    .factory("tokenSigningService", tokenSigningService);
+
+  tokenSigningService.$inject = ["tokenService", "$log"];
+
+  function tokenSigningService(tokenService, $log) {
+    return {
+      request: signWithToken
+    };
+
+    function signWithToken(request) {
+      var token = tokenService.get();
+      if (token) {
+        $log.debug("Token exists; signing request.");
+        request.headers['Authorization'] = `Bearer ${token}`;
+      }
+
+      return request;
+    }
+  }
+
+})();
+
+(function() {
+  "use strict";
+
+  angular
+    .module("informApp")
+    .factory("userDataService", userDataService);
+
+  userDataService.$inject = ["$log", "$http", '$rootScope'];
+
+  function userDataService($log, $http, $rootScope) {
+    var user = {
+      email:           "",
+      first_name:      "",
+      last_name:       "",
+      password:        "",
+      dob:             new Date(1990, 10, 1),
+      create:          create,
+      clear:           clear,
+      currentUserData: currentUserData,
+      currentUser:     {},
+      updatePoints:     updatePoints,
+      sendPointInfo:   sendPointInfo,
+      searchFriend:    searchFriend
+    };
+
+    return user;
+
+    function create() {
+      $log.debug("Attempting to create:", user);
+
+      return $http({
+        url:     "/api/users",
+        method:  "POST",
+        headers: {"Content-Type": "application/json"},
+        data: angular.toJson({
+          email:        user.email,
+          first_name:   user.first_name,
+          last_name:    user.last_name,
+          password:     user.password,
+          points:       10,
+          dob:          user.dob.toISOString()
+        })
+      }).then(function() {
+          currentUserData();
+      });
+    }
+
+    function updatePoints(newPoints) {
+      $log.debug("Attempting to update the level of :", user.currentUser.first_name);
+
+      return $http({
+        url:     "/api/me",
+        method:  "POST",
+        headers: {"Content-Type": "application/json"},
+        data: angular.toJson({
+          points: newPoints
+        })
+      }).then(function() {
+          currentUserData();
+          // $log.log('the updated data is', data.data);
+          // authService.currentUser = data.data;
+      });
+    }
+
+    function clear() {
+      $log.debug("Clearing user.");
+
+      user.email       = "";
+      user.first_name  = "";
+      user.last_name   = "";
+      user.password    = "";
+      user.dob         = "";
+    }
+
+    function currentUserData() {
+      $log.debug("Retrieving current user data.");
+      return $http({
+        url:     "/api/me",
+        method:  "GET"
+      }).then(function(data) {
+        user.currentUser = data.data.data;
+        $log.log('user is', user.currentUser);
+        return user.currentUser;
+      });
+    }
+
+    function sendPointInfo(sentiment, param) {
+      $log.debug("Attempting to send point info of parameter: ", param, ' and sentiment: ', sentiment);
+
+      return $http({
+        url:     "/api/me",
+        method:  "POST",
+        headers: {"Content-Type": "application/json"},
+        data: angular.toJson({
+          searchParam: param,
+          articleSentiment: sentiment
+        })
+      }).then(function() {
+          currentUserData();
+          // $log.log('the updated data is', data.data);
+          // authService.currentUser = data.data;
+      });
+    }
+
+    function searchFriend(friend) {
+     $log.debug("Attempting to search database for friend: ", friend);
+      return $http({
+        url:     "/api/users",
+        method:  "GET",
+        headers: {"email": friend}
+      }).then(function(data) {
+        user.currentUser = data.data.data;
+        $log.log('user is', user.currentUser);
+        return user.currentUser;
+      });
+    }
+  }
+
 })();

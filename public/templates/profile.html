@@ -1,0 +1,38 @@
+<div id="liberty" ng-controller="ProfileController as vm">
+  <br><br><br>
+  <div class="container-fluid" id="profile">
+    <h2 class="chelsea" id="profile-title">{{vm.user.currentUser.firstName}}'s Profile</h2>
+    <div id="profile-info">
+      <div class="user-category"> First Name: </div><div class="user-info"> {{vm.user.currentUser.firstName}} </div><br>
+      <div class="user-category"> Last Name: </div><div class="user-info"> {{vm.user.currentUser.lastName}} </div><br>
+      <div class="user-category"> Email: </div><div class="user-info"> {{vm.user.currentUser.email}} </div><br>
+      <div class="user-category"> Birthday: </div><div class="user-info"> {{vm.user.currentUser.dob | amDateFormat:'MMMM Do, YYYY'}} </div><br>
+      <div class="user-category red"> Inform Points: </div><div class="user-info red"> {{vm.user.currentUser.points}} </div>
+    </div>
+    <div id="query-info">
+      <h4 class="chelsea" id="query-title"> Search History </h4>
+      <div class="bars" ng-repeat="query in vm.user.currentUser.queries">
+        <div class="query-param"> "{{query.queryInput}}" </div>
+        articles with positive sentiment
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" aria-valuenow="query.positiveClick" aria-valuemin="0" aria-valuemax="100" style="width: {{query.positiveClick * 5}}%;">
+            {{query.positiveClick}} reads
+          </div>
+        </div>
+        articles with negative sentiment
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" aria-valuenow="query.negativeClick" aria-valuemin="0" aria-valuemax="100" style="width: {{query.negativeClick * 5}}%;">
+             {{query.negativeClick}} reads
+          </div>
+        </div>
+        articles with neutral sentiment
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" aria-valuenow="query.neutralClick" aria-valuemin="0" aria-valuemax="100" style="width: {{query.neutralClick * 5}}%;">
+             {{query.neutralClick}} reads
+          </div>
+        </div>
+        <br>
+      </div>
+
+  </div>
+</div>

@@ -19,7 +19,8 @@
       currentUserData: currentUserData,
       currentUser:     {},
       updatePoints:     updatePoints,
-      sendPointInfo:   sendPointInfo
+      sendPointInfo:   sendPointInfo,
+      searchFriend:    searchFriend
     };
 
     return user;
@@ -99,7 +100,19 @@
           // $log.log('the updated data is', data.data);
           // authService.currentUser = data.data;
       });
+    }
 
+    function searchFriend(friend) {
+     $log.debug("Attempting to search database for friend: ", friend);
+      return $http({
+        url:     "/api/users",
+        method:  "GET",
+        headers: {"email": friend}
+      }).then(function(data) {
+        user.currentUser = data.data.data;
+        $log.log('user is', user.currentUser);
+        return user.currentUser;
+      });
     }
   }
 

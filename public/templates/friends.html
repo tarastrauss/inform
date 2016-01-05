@@ -1,0 +1,12 @@
+<div id="liberty" ng-controller="ProfileController as vm">
+  <br><br><br>
+  <div class="container-fluid" id="friends">
+    <h2 class="chelsea" id="friends-title">{{vm.user.currentUser.firstName}}'s Friends</h2>
+    <form id="friend-search" role="search" ng-submit="vm.friendSearch(vm.friend)">
+      <div class="form-group">
+        <input type="text" ng-model="vm.friend" class="form-control chelsea" id="friend-input" placeholder="Email">&nbsp;&nbsp;
+      <button type="submit" class="btn btn-warning chelsea" id="friend-button">Search for Friends</button>
+      </div>
+    </form>
+  </div>
+</div>

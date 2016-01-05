@@ -20,7 +20,7 @@
 
       function searchCall(param){
         search.param = param;
-        $log.debug("Making call to server for API search");
+        $log.debug("Making call to server for API search of ", param);
         return $http({
           url:     "/api/search",
           method:  "POST",
