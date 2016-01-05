@@ -6,7 +6,7 @@ var jwt  = require('jsonwebtoken'),
 module.exports = function(app, errorHandler) {
 
   // User creation path:
-  app.get('/api/me',
+  app.post('/api/getMe',
 
     // validations
     checkForToken,
@@ -21,10 +21,18 @@ module.exports = function(app, errorHandler) {
 
       User.findOne({email: req.decoded.email}).exec()
         .then(function(user) {
-          res.json({
-            success: true,
-            message: 'Successfully retrieved user data.',
-            data: user
+          user.friends.forEach(function(currentFriend) {
+            User.findById(currentFriend.userId, function(err, friend){
+              currentFriend.points = friend.points;
+              user.save();
+            });
+          });
+          user.save(function(err){
+            res.json({
+              success: true,
+              message: 'Successfully retrieved user data.',
+              data: user
+            });
           });
       }).catch(function(err) {
           next(err);

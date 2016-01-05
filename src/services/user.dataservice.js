@@ -77,8 +77,8 @@
     function currentUserData() {
       $log.debug("Retrieving current user data.");
       return $http({
-        url:     "/api/me",
-        method:  "GET"
+        url:     "/api/getMe",
+        method:  "POST"
       }).then(function(data) {
         user.currentUser = data.data.data;
         $log.log('user is', user.currentUser);

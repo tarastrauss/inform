@@ -3984,22 +3984,6 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
   "use strict";
 
   angular
-    .module("informApp")
-    .config(configure);
-
-  configure.$inject = ["$httpProvider"];
-
-  function configure($httpProvider) {
-    // console.log("Adding tokenSigningService interceptor.");
-    $httpProvider.interceptors.push("tokenSigningService");
-  }
-
-})();
-
-(function() {
-  "use strict";
-
-  angular
       .module("informApp")
       .controller('DropdownController', DropdownController);
 
@@ -4331,6 +4315,22 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 
   angular
     .module("informApp")
+    .config(configure);
+
+  configure.$inject = ["$httpProvider"];
+
+  function configure($httpProvider) {
+    // console.log("Adding tokenSigningService interceptor.");
+    $httpProvider.interceptors.push("tokenSigningService");
+  }
+
+})();
+
+(function() {
+  "use strict";
+
+  angular
+    .module("informApp")
     .factory("authService", authService);
 
   authService.$inject = ["$log", "$http", "tokenService", '$state', 'userDataService'];
@@ -4578,8 +4578,8 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
     function currentUserData() {
       $log.debug("Retrieving current user data.");
       return $http({
-        url:     "/api/me",
-        method:  "GET"
+        url:     "/api/getMe",
+        method:  "POST"
       }).then(function(data) {
         user.currentUser = data.data.data;
         $log.log('user is', user.currentUser);
