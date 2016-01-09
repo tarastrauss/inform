@@ -45,6 +45,19 @@
         controller: "ProfileController",
         controllerAs: "vm",
       })
+      .state("votePage", {
+        url: "/vote",
+        views: {
+          nav: {
+            templateUrl: '/templates/navbar.html'
+          },
+          content: {
+            templateUrl: "/templates/vote.html"
+          }
+        },
+        controller: "CivicsController",
+        controllerAs: "vm",
+      })
       .state("feedPage", {
         url: "/feed",
         views: {

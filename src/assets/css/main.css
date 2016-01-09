@@ -18,8 +18,12 @@ body {
 
 #liberty {
   background-image: url("/assets/img/liberty.jpg");
-  background-size: cover;
-  height: 2300px;
+  /*background-size: cover;*/
+  background-repeat: no-repeat;
+  background-color: black;
+  background-position: center;
+  background-position: top;
+  height: 1350px;
   margin-top: 25px;
   position: relative;
 }
@@ -233,8 +237,8 @@ body {
 
 }
 
-#profile, #friends {
-  height: 95%;
+#profile, #friends, #vote {
+  height: 1150px;
   width: 60%;
   margin: 0 auto;
   padding-top: 20px;
@@ -255,7 +259,7 @@ body {
   animation-duration:1.5s;
 }
 
-#profile-title, #friends-title {
+#profile-title, #friends-title, #address-title {
   opacity: 1;
   color: black;
   text-align: center;
@@ -304,7 +308,7 @@ body {
   color: red;
 }
 
-#friend-search {
+#friend-search{
   width: 50%;
   margin: 0 auto;
   opacity: 1;
@@ -356,4 +360,58 @@ body {
   bottom: 0;
   position: absolute;
   padding: 0 0 5px 5px;
+}
+
+.address-input {
+  margin-bottom: 8px;
+}
+
+#address-search {
+  width: 50%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+#polling-results {
+  width: 50%;
+  margin: 0 auto;
+  margin-top: 15px;
+}
+
+#polling-place-title {
+  text-align: center;
+}
+
+#vote-page {
+    background-image: url("/assets/img/liberty.jpg");
+
+    background-repeat: no-repeat;
+  background-color: black;
+  background-position: center;
+  background-position: top;
+    margin-top: 25px;
+  height: 100vh;
+  margin-bottom: -25px;
+}
+
+#vote {
+  height: 85%;
+  width: 60%;
+  margin: 0 auto;
+  padding-top: 20px;
+  background-color: white;
+  /*opacity: .50;*/
+  border-radius: 5px;
+  opacity:0;  /* make things invisible upon start */
+  -webkit-animation:fadeIn ease-in .7;  /* call our keyframe named fadeIn, use animattion ease-in and repeat it only 1 time */
+  -moz-animation:fadeIn ease-in .7;
+  animation:fadeIn ease-in .7;
+
+  -webkit-animation-fill-mode:forwards;  /* this makes sure that after animation is done we remain at the last keyframe value (opacity: 1)*/
+  -moz-animation-fill-mode:forwards;
+  animation-fill-mode:forwards;
+
+  -webkit-animation-duration:1.5s;
+  -moz-animation-duration:1.5s;
+  animation-duration:1.5s;
 }

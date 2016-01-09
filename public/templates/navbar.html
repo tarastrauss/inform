@@ -35,13 +35,13 @@
           <a class="chelsea" ui-sref="candidatesPage">Candidates</a>
         </li>
         <li class="nav-options" role="presentation" ui-sref-active="active">
-          <a class="chelsea" ui-sref="pollingPage">Votes</a>
+          <a class="chelsea" ui-sref="votePage">Votes</a>
         </li>
       </ul>
       <div id="search-nav" ng-controller="FeedController as fd" >
         <form class="navbar-form navbar-right" role="search" ng-submit="fd.search(fd.query)">
           <div class="form-group">
-            <input type="text" ng-model="fd.query" class="form-control chelsea" placeholder="Voting">
+            <input type="text" ng-model="fd.query" class="form-control chelsea" placeholder="Barak Obama">
           </div>&nbsp;&nbsp;
           <button type="submit" class="btn btn-warning chelsea">Search for News</button>
         </form>

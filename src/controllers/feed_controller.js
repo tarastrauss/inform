@@ -44,7 +44,7 @@
     }
 
     vm.currentPage = 0;
-    vm.pageSize = 10;
+    vm.pageSize = 5;
     // vm.data = [];
     vm.numberOfPages=function(){
         return Math.ceil(vm.searchService.result.result.docs.length/vm.pageSize);

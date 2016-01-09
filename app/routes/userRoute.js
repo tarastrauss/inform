@@ -55,6 +55,42 @@ module.exports = function(app, errorHandler) {
     });
   });
 
+  app.post('/api/addAddress',
+
+    checkForToken,
+    validateToken,
+
+    function(req, res, next) {
+
+      User.findOne({email: req.decoded.email}, function(err, user){
+          if (user) {
+            user.address = req.body.address;
+            if (user.voteInfo == undefined) {
+              user.points += 5;
+            }
+            user.voteInfo = {
+              hasSearched: true,
+              myLocationName: req.body.pollingLocation.address.locationName,
+              myLocationStreet: req.body.pollingLocation.address.line1,
+              myLocationCity: req.body.pollingLocation.address.city,
+              myLocationState: req.body.pollingLocation.address.state,
+              myLocationZip: req.body.pollingLocation.address.zip,
+              elections: req.body.contests
+            };
+            user.save(function(err){
+              res.json({
+                success: true,
+                message: 'Successfully added address.',
+                data: user
+              });
+            });
+          }
+          else {
+            res.send('User cannot be found');
+          }
+    });
+  });
+
   app.post('/api/followUser',
 
     checkForToken,

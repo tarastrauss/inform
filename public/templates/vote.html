@@ -1,0 +1,31 @@
+<div id="vote-page" ng-controller="CivicsController as vm">
+<br><br><br>
+  <div class="container-fluid" id="vote">
+    <h2 class="chelsea" id="address-title">{{vm.user.currentUser.firstName}}'s Voting Information </h2>
+    <br>
+    <form ng-if="vm.user.currentUser.address === undefined || vm.changeAddress" id="address-search" role="search" ng-submit="vm.addAddress()">
+      <div class="chelsea" ng-if ="vm.changeAddress !== true "> Enter your address and search for your polling place to add 5 points to your score! </div> <br>
+      <div class="form-group">
+        <input type="text" ng-model="vm.street" class="form-control address-input chelsea" id="friend-input" placeholder="Street"><br>
+        <input type="text" ng-model="vm.city" class="form-control address-input chelsea" id="friend-input" placeholder="City"><br>
+        <input type="text" ng-model="vm.state" class="form-control address-input chelsea" id="friend-input" placeholder="State"><br>
+        <input type="text" ng-model="vm.zip" class="form-control address-input chelsea" id="friend-input" placeholder="Zip"><br>
+
+      <button type="submit" class="btn btn-warning chelsea" id="address-button">Find your polling place!</button>
+      </div>
+    </form>
+    <div id="polling-results" ng-if="vm.user.currentUser.voteInfo && vm.changeAddress != true ">
+      <h4 class="chelsea" id="polling-place-title"> Polling Place </h4>
+      <div class="chelsea"> Please make sure to check back a week before any election as your polling place may change! </div> <br>
+<!--       {{vm.pollingPlace.address.locationName}} <br>
+      {{vm.pollingPlace.address.line1}}<br>
+      {{vm.pollingPlace.address.city}}, {{vm.pollingPlace.address.state}}{{vm.pollingPlace.address.zip}}<br> -->
+      {{vm.user.currentUser.voteInfo.myLocationName}} <br>
+      {{vm.user.currentUser.voteInfo.myLocationStreet}}<br>
+      {{vm.user.currentUser.voteInfo.myLocationCity}}, {{vm.user.currentUser.voteInfo.myLocationState}} {{vm.user.currentUser.voteInfo.myLocationZip}}<br><br>
+      <button type="submit" class="btn btn-warning chelsea" id="change-address" ng-click="vm.changeAddress=true">Change your address!</button>
+    </div>
+
+  </div>
+
+</div>

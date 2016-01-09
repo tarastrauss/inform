@@ -22,7 +22,8 @@
       sendPointInfo:   sendPointInfo,
       searchFriend:    searchFriend,
       friend:          {},
-      followUser:      followUser
+      followUser:      followUser,
+      addAddressAndPoll:      addAddressAndPoll
     };
 
     return user;
@@ -141,6 +142,25 @@
         user.friend = {};
         return user.currentUser;
       });
+    }
+
+    function addAddressAndPoll(addy, pollingLocation) {
+     $log.debug("Attempting to user address", addy);
+      return $http({
+        url:     "/api/addAddress",
+        method:  "POST",
+        headers: {"Content-Type": "application/json"},
+        data: angular.toJson({
+         address: addy,
+         pollingLocation: pollingLocation
+        })
+      }).then(function(data) {
+        user.currentUser = data.data.data;
+        $log.log('User is', data.data.data);
+        $log.debug(data.data.message);
+        return user.currentUser;
+      });
+
     }
   }
 
