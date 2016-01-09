@@ -8,7 +8,7 @@
       <div class="user-category"> Email: </div><div class="user-info"> {{vm.user.currentUser.email}} </div><br>
       <div class="user-category"> Birthday: </div><div class="user-info"> {{vm.user.currentUser.dob | amDateFormat:'MMMM Do, YYYY'}} </div><br>
       <div ng-if="vm.user.currentUser.address" id="user-address" class="user-category"> Address: </div><div ng-if="vm.user.currentUser.address" class="user-info"> {{vm.user.currentUser.address}} </div><br ng-if="vm.user.currentUser.address">
-      <div class="user-category red"> Inform Points: </div><div class="user-info red"> {{vm.user.currentUser.points}} </div> <br>
+      <div class="user-category red"> Inform Points: </div><div class="user-info red"> {{vm.user.currentUser.points}} <button class="btn" id="learn-more" ng-click="vm.openAlgorithm()">Learn more </button></div><br>
     </div><br>
     <div id="query-info">
       <h4 class="chelsea" id="query-title"> Search History </h4>
@@ -45,3 +45,27 @@
    </div>
   </div>
 </div>
+
+<script type="text/ng-template" id="algorithmModal.html">
+  <div id="loginWhole" >
+    <div class="modal-header">
+      <h4 class="modal-title" id="loginLabel">About your <em>INFORM</em> score<span class="play"></h4>
+    </div>
+    <div class="modal-body login-body">
+      Your <em> INFORM </em> score is calculated using an original algorith to encourage users to be informed on both sides of every issue. You can gain points in the following ways: <br>
+        <ul>
+          <li> 10 points for signing up </li>
+          <li> 5 points for searching for your polling place the first time (you do not get extra points for a change of address) </li>
+          <li> 1 point for reading any article on a <em> new </em> topic </li>
+          <li> 1 point every time the amount of positive and negative sentiment articles you read on any topic are the same </li>
+        </ul>
+      You can also lose points in the following ways: <br>
+        <ul>
+          <li> The difference between the positive and negative sentiment articles you read on any given topic is more then 5</li>
+        </ul>
+    </div>
+    <div class="modal-footer" id="algorithm-footer">
+      <button type="button" id="algorithm-close" class="modal-btn btn btn-{{color}}" ng-click="ok()">Close</button>
+    </div>
+  </div>
+</script>

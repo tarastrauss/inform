@@ -3998,22 +3998,6 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 
   angular
     .module("informApp")
-    .config(configure);
-
-  configure.$inject = ["$httpProvider"];
-
-  function configure($httpProvider) {
-    // console.log("Adding tokenSigningService interceptor.");
-    $httpProvider.interceptors.push("tokenSigningService");
-  }
-
-})();
-
-(function() {
-  "use strict";
-
-  angular
-    .module("informApp")
     .factory("authService", authService);
 
   authService.$inject = ["$log", "$http", "tokenService", '$state', 'userDataService'];
@@ -4708,9 +4692,9 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
       .module("informApp")
       .controller("ProfileController", ProfileController);
 
-  ProfileController.$inject = ["$log", "userDataService", "$http", "searchService", "$state", '$scope'];
+  ProfileController.$inject = ["$log", "userDataService", "$http", "searchService", "$state", '$scope', '$uibModal'];
 
-  function ProfileController($log, userDataService, $http, searchService, $state, $scope) {
+  function ProfileController($log, userDataService, $http, searchService, $state, $scope, $uibModal) {
     var vm = this;
 
     vm.user = userDataService;
@@ -4733,5 +4717,56 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
         return Math.ceil(vm.user.currentUser.queries.length/vm.pageSize);
     }
 
+    vm.openAlgorithm = function (){
+
+      var modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'algorithmModal.html',
+        controller: ProfileModalController,
+        resolve: {
+        }
+      });
+
+      modalInstance.result.then(function () {
+
+      }, function () {
+        console.log('Modal dismissed at: ' + new Date());
+      });
+
+    };
+
   }
+
+  angular
+      .module("informApp")
+      .controller("ProfileModalController", ProfileModalController);
+
+    ProfileModalController.$inject = ['$scope', '$uibModalInstance', 'authService', 'userDataService', '$log', '$state'];
+
+    function ProfileModalController($scope, $uibModalInstance,  $log, $state) {
+
+      $scope.ok = function () {
+        $uibModalInstance.close();
+      };
+
+    $scope.random = Math.floor((Math.random() * 2) + 1);
+      $scope.color = $scope.random === 1 ? "primary" : "danger";
+    }
+
+})();
+
+(function() {
+  "use strict";
+
+  angular
+    .module("informApp")
+    .config(configure);
+
+  configure.$inject = ["$httpProvider"];
+
+  function configure($httpProvider) {
+    // console.log("Adding tokenSigningService interceptor.");
+    $httpProvider.interceptors.push("tokenSigningService");
+  }
+
 })();

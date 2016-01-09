@@ -3435,6 +3435,23 @@ body {
   position: relative;
 
 }
+
+.input {
+  width: 170px;
+  display: inline-block;
+  margin-left: 15px;
+  float: right;
+}
+
+.input-type {
+  font-family: Yantramanav;
+  font-size: 16px;
+  width: 280px;
+  margin: 0 auto;
+  margin: 15px 0 25px 0;
+  padding-top: 10px;
+  vertical-align: center;
+}
 .nav-right {
   float: right;
 }
@@ -3490,6 +3507,14 @@ body {
   width: 200px;
   margin: 0 auto;
 }
+
+#signUp-footer {
+  width: 160px;
+  height: 40px;
+  margin: 0 auto;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
 #login-footer{
   width: 200px;
   margin: 0 auto;
@@ -3522,12 +3547,29 @@ body {
 }
 
 .login-body{
-  width: 60%;
+  width: 55%;
   margin: 0 auto;
+}
+
+#algorithm-footer {
+  width: 200px;
+  margin: 0 auto;
+}
+
+#algorithm-close {
+  margin-right: 50px;
 }
 
 .modal-header {
   font-family:Yantramanav;
+}
+
+#learn-more {
+  margin-left: 15px;
+  height: 26px;
+  line-height: 10px;
+  font-size: 16px;
+  vertical-align: middle;
 }
 
 .article {
@@ -3756,7 +3798,7 @@ body {
   background-position: center;
   background-position: top;
     margin-top: 25px;
-  height: 100vh;
+  height: 97vh;
   margin-bottom: -25px;
 }
 

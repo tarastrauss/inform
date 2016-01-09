@@ -32,7 +32,7 @@
       <p class="text"> Your inform SCORE is calculated using an algorithm that takes all your interactions on our site into
       consideration. The more articles you read from both sides, the higher your inform SCORE! You also get points for
       finding your polling place and researching candidates from various political parties. Congratulations! You get 10
-      points just for signing up! For more information on our algorithm, click HERE. </p>
+      points just for signing up! </p>
     </div>
     <div class="modal-footer" id="started-footer">
       <button type="button" class="btn modal-btn btn-default" ng-click="cancel()">Close</button>
@@ -46,20 +46,24 @@
     <div class="modal-header">
       <h4 class="modal-title" id="signUpLabel">Sign up for <span class="play"><em>Inform</em></span></h4>
     </div>
-    <div class="modal-body login-body">
+    <div class="login-body">
       <form id="userCreate" class="pure-form center" ng-submit="createUser()">
         <fieldset class="pure-group center">
-          <input type="text" ng-model="user.first_name"   class="first_name form-control" placeholder="First Name" aria-describedby="basic-addon1"><br>
-          <input type="text" ng-model="user.last_name"    class="last_name form-control" placeholder="Last Name" aria-describedby="basic-addon1"><br>
-          <input type="email"    ng-model="user.email"    class="email form-control" aria-describedby="basic-addon1" placeholder="email"><br>
-          <input type="date" ng-model="user.dob"          class="dob form-control" placeholder="" aria-describedby="basic-addon1"><br>
-          <input type="password" ng-model="user.password" class="password form-control" placeholder="Password" aria-describedby="basic-addon1"><br>
-          <button type="button" class="modal-btn btn btn-default" ng-click="cancel()">Close</button>
-          <button type="submit" class="modal-btn btn btn-{{color}}" >Submit</button>
+          <div class="input-type"> First Name: <input type="text" ng-model="user.first_name"   class="first_name form-control input" placeholder="First Name" aria-describedby="basic-addon1"><br></div>
+          <div class="input-type"> Last Name: <input type="text" ng-model="user.last_name"    class="last_name form-control input" placeholder="Last Name" aria-describedby="basic-addon1"><br></div>
+          <div class="input-type"> E-mail: <input type="email"    ng-model="user.email"    class="email form-control input" aria-describedby="basic-addon1" placeholder="email"><br></div>
+          <div class="input-type"> Birthday: <input type="date" ng-model="user.dob"          class="dob form-control input" placeholder="" aria-describedby="basic-addon1"><br></div>
+          <div class="input-type"> Password: <input type="password" ng-model="user.password" class="password form-control input" placeholder="Password" aria-describedby="basic-addon1"><br></div>
+
+          <div id="signUp-footer">
+            <button type="button" class="modal-btn btn btn-default" ng-click="cancel()">Close</button>
+            <button type="submit" class="modal-btn btn btn-{{color}}" >Submit</button>
+          </div>
         </fieldset>
       </form>
+
     </div>
-  </div>f
+  </div>
 </script>
 
 <div class="container-fluid" id="landing" ng-controller="ModalController">
