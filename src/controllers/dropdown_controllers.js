@@ -5,9 +5,9 @@
       .module("informApp")
       .controller('DropdownController', DropdownController);
 
-  DropdownController.$inject = ["$scope", "$log", "userDataService", "authService"];
+  DropdownController.$inject = ["$scope", "$log", "userDataService", "authService", "$state"];
 
-  function DropdownController ($scope, $log, userDataService, authService) {
+  function DropdownController ($scope, $log, userDataService, authService, $state) {
 
     var dd = this;
     dd.user = userDataService;
@@ -18,6 +18,8 @@
       'Profile',
       'Logout'
     ];
+
+
 
     dd.isCollapsed = true;
 

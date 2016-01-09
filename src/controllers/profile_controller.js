@@ -23,5 +23,12 @@
       vm.user.followUser(id);
     }
 
+    vm.currentPage = 0;
+    vm.pageSize = 3;
+    // vm.data = [];
+    vm.numberOfPages=function(){
+        return Math.ceil(vm.user.currentUser.queries.length/vm.pageSize);
+    }
+
   }
 })();

@@ -5,9 +5,9 @@
     .module("informApp")
     .factory("userDataService", userDataService);
 
-  userDataService.$inject = ["$log", "$http", '$rootScope'];
+  userDataService.$inject = ["$log", "$http", '$rootScope', "$state"];
 
-  function userDataService($log, $http, $rootScope) {
+  function userDataService($log, $http, $rootScope, $state) {
     var user = {
       email:           "",
       first_name:      "",
@@ -89,6 +89,8 @@
         user.currentUser = data.data.data;
         $log.log('user is', user.currentUser);
         return user.currentUser;
+      }, function errorCallback(response) {
+        $state.go('landingPage')
       });
     }
 

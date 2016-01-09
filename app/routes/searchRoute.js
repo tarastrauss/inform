@@ -49,8 +49,12 @@ module.exports = function(app, errorHandler) {
       var googleURI = 'https://www.googleapis.com/civicinfo/v2/voterinfo?key='+ process.env.GOOGLE_CIVICS_KEY + '&address=' + req.body.address + '&electionId=2000';
       // var googleURI = 'https://www.googleapis.com/civicinfo/v2/elections?key='+ process.env.GOOGLE_CIVICS_KEY;
       request.get(googleURI, function(err, response, body) {
-        var body = JSON.parse(body);
-        res.json(body);
+        if (err) {
+          res.json(err)
+        } else {
+          var body = JSON.parse(body);
+          res.json(body);
+        }
       });
     });
 

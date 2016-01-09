@@ -3998,6 +3998,22 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 
   angular
     .module("informApp")
+    .config(configure);
+
+  configure.$inject = ["$httpProvider"];
+
+  function configure($httpProvider) {
+    // console.log("Adding tokenSigningService interceptor.");
+    $httpProvider.interceptors.push("tokenSigningService");
+  }
+
+})();
+
+(function() {
+  "use strict";
+
+  angular
+    .module("informApp")
     .factory("authService", authService);
 
   authService.$inject = ["$log", "$http", "tokenService", '$state', 'userDataService'];
@@ -4070,7 +4086,7 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
       var search = {
         searchCall:   searchCall,
         result:     [],
-        param: ""
+        param: "",
       }
 
       return search;
@@ -4090,6 +4106,9 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
           // vm.user.currentUser = data.data.data;
           search.result = data.data;
           $log.log('the articles are', search.result);
+          // if (search.result.status == "ERROR") {
+          //   search.result = [];
+          // }
           //$log.log('After searching, the user data is', vm.user.currentUser);
           return search.result;
           // return vm.user.currentUser;
@@ -4173,9 +4192,9 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
     .module("informApp")
     .factory("userDataService", userDataService);
 
-  userDataService.$inject = ["$log", "$http", '$rootScope'];
+  userDataService.$inject = ["$log", "$http", '$rootScope', "$state"];
 
-  function userDataService($log, $http, $rootScope) {
+  function userDataService($log, $http, $rootScope, $state) {
     var user = {
       email:           "",
       first_name:      "",
@@ -4257,6 +4276,8 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
         user.currentUser = data.data.data;
         $log.log('user is', user.currentUser);
         return user.currentUser;
+      }, function errorCallback(response) {
+        $state.go('landingPage')
       });
     }
 
@@ -4383,9 +4404,9 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
       .module("informApp")
       .controller('DropdownController', DropdownController);
 
-  DropdownController.$inject = ["$scope", "$log", "userDataService", "authService"];
+  DropdownController.$inject = ["$scope", "$log", "userDataService", "authService", "$state"];
 
-  function DropdownController ($scope, $log, userDataService, authService) {
+  function DropdownController ($scope, $log, userDataService, authService, $state) {
 
     var dd = this;
     dd.user = userDataService;
@@ -4396,6 +4417,8 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
       'Profile',
       'Logout'
     ];
+
+
 
     dd.isCollapsed = true;
 
@@ -4703,21 +4726,12 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
       vm.user.followUser(id);
     }
 
+    vm.currentPage = 0;
+    vm.pageSize = 3;
+    // vm.data = [];
+    vm.numberOfPages=function(){
+        return Math.ceil(vm.user.currentUser.queries.length/vm.pageSize);
+    }
+
   }
-})();
-
-(function() {
-  "use strict";
-
-  angular
-    .module("informApp")
-    .config(configure);
-
-  configure.$inject = ["$httpProvider"];
-
-  function configure($httpProvider) {
-    // console.log("Adding tokenSigningService interceptor.");
-    $httpProvider.interceptors.push("tokenSigningService");
-  }
-
 })();

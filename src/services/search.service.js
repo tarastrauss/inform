@@ -12,7 +12,7 @@
       var search = {
         searchCall:   searchCall,
         result:     [],
-        param: ""
+        param: "",
       }
 
       return search;
@@ -32,6 +32,9 @@
           // vm.user.currentUser = data.data.data;
           search.result = data.data;
           $log.log('the articles are', search.result);
+          // if (search.result.status == "ERROR") {
+          //   search.result = [];
+          // }
           //$log.log('After searching, the user data is', vm.user.currentUser);
           return search.result;
           // return vm.user.currentUser;
