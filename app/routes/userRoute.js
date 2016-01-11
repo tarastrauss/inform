@@ -75,6 +75,7 @@ module.exports = function(app, errorHandler) {
               myLocationCity: req.body.pollingLocation.address.city,
               myLocationState: req.body.pollingLocation.address.state,
               myLocationZip: req.body.pollingLocation.address.zip,
+              myVoteUrl: req.body.state.electionAdministrationBody.electionRegistrationUrl,
               elections: req.body.contests
             };
             user.save(function(err){

@@ -4,7 +4,7 @@
     <h2 class="chelsea" id="address-title">{{vm.user.currentUser.firstName}}'s Voting Information </h2>
     <br>
     <form ng-if="vm.user.currentUser.address === undefined || vm.changeAddress" id="address-search" role="search" ng-submit="vm.addAddress()">
-      <div class="chelsea" ng-if ="vm.changeAddress !== true "> Enter your address and search for your polling place to add 5 points to your score! </div> <br>
+      <div class="chelsea" id="first-vote" ng-if ="vm.changeAddress !== true "> Enter your address and search for your polling place to add 5 points to your score! </div> <br>
       <div class="form-group">
         <input type="text" ng-model="vm.street" class="form-control address-input chelsea" id="friend-input" placeholder="Street"><br>
         <input type="text" ng-model="vm.city" class="form-control address-input chelsea" id="friend-input" placeholder="City"><br>
@@ -23,6 +23,7 @@
       {{vm.user.currentUser.voteInfo.myLocationName}} <br>
       {{vm.user.currentUser.voteInfo.myLocationStreet}}<br>
       {{vm.user.currentUser.voteInfo.myLocationCity}}, {{vm.user.currentUser.voteInfo.myLocationState}} {{vm.user.currentUser.voteInfo.myLocationZip}}<br><br>
+      <a target="_blank" href="{{vm.user.currentUser.voteInfo.myVoteUrl}}"> Register here! </a><br><br>
       <button type="submit" class="btn btn-warning chelsea" id="change-address" ng-click="vm.changeAddress=true">Change your address!</button>
     </div>
 

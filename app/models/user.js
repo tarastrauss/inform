@@ -33,6 +33,7 @@ var voteSchema = new mongoose.Schema({
   myLocationCity: String,
   myLocationZip: String,
   myLocationState: String,
+  myVoteUrl: String,
   elections: [electionSchema]
 });
 
