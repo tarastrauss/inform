@@ -58,6 +58,19 @@
         controller: "CivicsController",
         controllerAs: "vm",
       })
+      .state("candidatesPage", {
+        url: "/candidates",
+        views: {
+          nav: {
+            templateUrl: '/templates/navbar.html'
+          },
+          content: {
+            templateUrl: "/templates/candidates.html"
+          }
+        },
+        controller: "CivicsController",
+        controllerAs: "vm",
+      })
       .state("feedPage", {
         url: "/feed",
         views: {

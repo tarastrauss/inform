@@ -17,11 +17,6 @@
 
     vm.searchService = searchService;
 
-    // vm.articles = ["hi"];
-
-
-    // vm.user = userDataService;
-
     vm.search = function (param) {
       $log.debug("Hit feed search");
       $state.go('feedPage');
@@ -29,13 +24,7 @@
       var lowerParam = angular.lowercase(param)
       searchService.searchCall(lowerParam)
         .then(function() {
-          //vm.searchService = searchService;
-        //           body.result.docs.forEach(function(date){
-        //   moment(source.enriched.url.publicationDate.date).format('MMMM Do YYYY');
-        // }
           $log.debug('the results in the feed controller are ', vm.searchService.result);
-          //$state.reload();
-          //$state.go('feedPage');
         });
     }
 
@@ -45,18 +34,10 @@
 
     vm.currentPage = 0;
     vm.pageSize = 5;
-    // vm.data = [];
+
     vm.numberOfPages=function(){
         return Math.ceil(vm.searchService.result.result.docs.length/vm.pageSize);
     }
-    // for (var i=0; i<45; i++) {
-    //     vm.data.push("Item "+i);
-    // }
-
-
-//We already have a limitTo filter built-in to angular,
-//let's make a startFrom filter
-
 
   }
 

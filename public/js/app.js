@@ -3966,6 +3966,19 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
         controller: "CivicsController",
         controllerAs: "vm",
       })
+      .state("candidatesPage", {
+        url: "/candidates",
+        views: {
+          nav: {
+            templateUrl: '/templates/navbar.html'
+          },
+          content: {
+            templateUrl: "/templates/candidates.html"
+          }
+        },
+        controller: "CivicsController",
+        controllerAs: "vm",
+      })
       .state("feedPage", {
         url: "/feed",
         views: {
@@ -3990,6 +4003,405 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
     $urlRouterProvider.otherwise("/");
   }
 
+
+})();
+
+(function() {
+  "use strict";
+
+  angular
+    .module("informApp")
+    .config(configure);
+
+  configure.$inject = ["$httpProvider"];
+
+  function configure($httpProvider) {
+    // console.log("Adding tokenSigningService interceptor.");
+    $httpProvider.interceptors.push("tokenSigningService");
+  }
+
+})();
+
+(function() {
+  "use strict";
+
+  angular
+      .module("informApp")
+      .controller("CivicsController", CivicsController);
+
+  CivicsController.$inject = ["$log", "userDataService", "$http", "$state", '$scope'];
+
+  function CivicsController($log, userDataService, $http, $state, $scope) {
+    var vm = this;
+
+    vm.message = "test message";
+    vm.user = userDataService;
+
+
+
+    vm.addAddress = function () {
+      vm.changeAddress = false;
+      var address = vm.street + " " + vm.city + ", " + vm.state + " " + vm.zip;
+      $log.log('Attempgint to get polling information for ', address);
+      return $http({
+        url:     "/api/searchVote",
+        method:  "POST",
+        headers: {"Content-Type": "application/json"},
+        data: angular.toJson({
+          address: address
+        })
+      }).then(function(data) {
+
+        vm.civicsResult = data.data;
+        $log.log('the polling results are', vm.civicsResult);
+        vm.pollingPlace = vm.civicsResult.pollingLocations[0];
+        console.log('the polling information is ', vm.pollingPlace);
+        vm.user.addAddressAndPoll(address, vm.pollingPlace)
+        return vm.pollingPlace;
+      });
+    }
+
+  }
+})();
+
+(function() {
+  "use strict";
+
+  angular
+      .module("informApp")
+      .controller('DropdownController', DropdownController);
+
+  DropdownController.$inject = ["$scope", "$log", "userDataService", "authService", "$state"];
+
+  function DropdownController ($scope, $log, userDataService, authService, $state) {
+
+    var dd = this;
+    dd.user = userDataService;
+    dd.auth = authService;
+    dd.message="hi";
+
+    dd.items = [
+      'Profile',
+      'Friends',
+      'Logout'
+    ];
+
+    dd.isCollapsed = true;
+
+
+    dd.loadData = function () {
+      userDataService.currentUserData()
+      .then(function() {
+        dd.currentUser = userDataService.currentUser;
+      });
+    }
+
+    dd.loadData();
+
+  };
+
+})();
+
+(function() {
+  "use strict";
+
+  angular
+      .module("informApp")
+      .controller("FeedController", FeedController);
+
+  FeedController.$inject = ["$log", "userDataService", "$http", "searchService", "$state", '$scope'];
+
+
+  function FeedController($log, userDataService, $http, searchService, $state, $scope) {
+    var vm = this;
+
+    vm.message = "fun";
+
+    vm.user = userDataService;
+
+    vm.searchService = searchService;
+
+    vm.search = function (param) {
+      $log.debug("Hit feed search");
+      $state.go('feedPage');
+      vm.query ="";
+      var lowerParam = angular.lowercase(param)
+      searchService.searchCall(lowerParam)
+        .then(function() {
+          $log.debug('the results in the feed controller are ', vm.searchService.result);
+        });
+    }
+
+    vm.addPoints = function (sentiment) {
+      vm.user.sendPointInfo(sentiment, vm.searchService.param);
+    }
+
+    vm.currentPage = 0;
+    vm.pageSize = 5;
+
+    vm.numberOfPages=function(){
+        return Math.ceil(vm.searchService.result.result.docs.length/vm.pageSize);
+    }
+
+  }
+
+  angular.module('informApp').filter('startFrom', function() {
+    return function(input, start) {
+        start = +start; //parse to int
+        return input.slice(start);
+    }
+  });
+
+})();
+
+(function() {
+  "use strict";
+
+  angular
+      .module("informApp")
+      .controller("MainController", MainController);
+
+  MainController.$inject = ["$log"];
+
+
+  function MainController($log) {
+    var vm = this;
+
+    vm.message = "fun";
+
+    vm.username;
+    vm.password;
+
+  }
+})();
+
+(function() {
+  "use strict";
+
+  angular
+      .module("informApp")
+      .controller("ModalController", ModalController);
+
+  ModalController.$inject = ['$uibModal', '$scope', '$timeout', 'userDataService', '$state'];
+
+  function ModalController($uibModal, $scope, $timeout, userDataService, $state) {
+
+    $scope.userDataService = userDataService;
+
+    $scope.changeState = function () {
+      $state.go('feedPage');
+    }
+
+    $scope.openLogin = function (){
+
+      var modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'loginModal.html',
+        size: 'sm',
+        controller: ModalInstanceController,
+        resolve: {
+
+        }
+      });
+
+      modalInstance.result.then(function () {
+
+      }, function () {
+        console.log('Modal dismissed at: ' + new Date());
+      });
+
+    };
+
+    $scope.openStarted = function (){
+      var modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'startedModal.html',
+        controller: ModalInstanceController,
+        resolve: {
+
+        }
+      });
+
+      modalInstance.result.then(function () {
+        $scope.openSignUp();
+       }, function () {
+        console.log('Modal dismissed at: ' + new Date());
+      });
+    };
+
+    $scope.openSignUp= function (){
+      var modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'signUpModal.html',
+        controller: ModalInstanceController,
+        resolve: {
+
+        }
+      });
+
+      modalInstance.result.then(function () {
+
+      }, function () {
+        console.log('Modal dismissed at: ' + new Date());
+      });
+    };
+
+
+    $timeout(function(){
+      $scope.showLoginButtons = true;
+    }, 1100);
+
+  }
+
+  angular
+      .module("informApp")
+      .controller("ModalInstanceController", ModalInstanceController);
+
+    ModalInstanceController.$inject = ['$scope', '$uibModalInstance', 'authService', 'userDataService', '$log', '$state'];
+
+    function ModalInstanceController($scope, $uibModalInstance, authService, userDataService, $log, $state) {
+
+      $scope.user = userDataService;
+      $scope.auth = authService;
+
+      $scope.random = Math.floor((Math.random() * 2) + 1);
+      $scope.color = $scope.random === 1 ? "primary" : "danger";
+
+      $scope.ok = function () {
+        $uibModalInstance.close();
+        $state.go('feedPage');
+
+      };
+
+      $scope.createUser = function() {
+        $log.log('creating user!');
+        $scope.user.create()
+          .then(function(data, status, headers, config) {
+            $log.debug("Success:", data,status,headers,config)
+            $scope.failureMessage = "Present any error messages here.";
+            // $scope.user.clear();
+            $uibModalInstance.close();
+            $scope.auth.email = $scope.user.email;
+            $scope.auth.password = $scope.user.password;
+            $scope.logInUser()
+          })
+          .then(function(){
+
+            // $state.go('gamePage');
+          })
+          .catch(function(data, status, headers, config) {
+            $log.debug("Failure:", data,status,headers,config)
+            $scope.successMessage = "Present all of the current user's data here.";
+            $scope.failureMessage = angular.toJson(data.data);
+          });
+      };
+
+      $scope.logInUser = function() {
+
+        $scope.auth.logIn()
+          .then(function(data) {
+            $log.debug("Success:", data)
+             return $scope.user.currentUserData();
+          })
+          .then(function(data) {
+            $log.debug("Success logging user:", data)
+            $scope.user.currentUser = data;
+            $uibModalInstance.close();
+            $state.go('feedPage');
+            $scope.auth.clear();
+
+            $scope.successMessage = angular.toJson(data.data);
+            $scope.failureMessage = "Present any error messages here.";
+          })
+          .catch(function(data, status, headers, config) {
+            $log.debug("Failure:", data, status, headers, config)
+            $scope.successMessage = "Present all of the current user's data here.";
+            $scope.failureMessage = angular.toJson(data.data);
+          });
+      };
+
+      $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+      };
+
+
+      $scope.getStarted = function () {
+        $uibModalInstance.close();
+      };
+
+      $scope.signUp = function() {
+        $uibModalInstance.close();
+      }
+    };
+})();
+
+(function() {
+  "use strict";
+
+  angular
+      .module("informApp")
+      .controller("ProfileController", ProfileController);
+
+  ProfileController.$inject = ["$log", "userDataService", "$http", "searchService", "$state", '$scope', '$uibModal'];
+
+  function ProfileController($log, userDataService, $http, searchService, $state, $scope, $uibModal) {
+    var vm = this;
+
+    vm.user = userDataService;
+
+    vm.friendSearch = function(friend) {
+      $log.debug("Hit friend search");
+      vm.friend = "";
+      vm.user.searchFriend(friend);
+    }
+
+    vm.followFriend = function(id) {
+      $log.debug('Hit follow friend');
+      vm.user.followUser(id);
+    }
+
+    vm.currentPage = 0;
+    vm.pageSize = 3;
+    // vm.data = [];
+    vm.numberOfPages=function(){
+        return Math.ceil(vm.user.currentUser.queries.length/vm.pageSize);
+    }
+
+    vm.openAlgorithm = function (){
+
+      var modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'algorithmModal.html',
+        controller: ProfileModalController,
+        resolve: {
+        }
+      });
+
+      modalInstance.result.then(function () {
+
+      }, function () {
+        console.log('Modal dismissed at: ' + new Date());
+      });
+
+    };
+
+  }
+
+  angular
+      .module("informApp")
+      .controller("ProfileModalController", ProfileModalController);
+
+    ProfileModalController.$inject = ['$scope', '$uibModalInstance', 'authService', 'userDataService', '$log', '$state'];
+
+    function ProfileModalController($scope, $uibModalInstance,  $log, $state) {
+
+      $scope.ok = function () {
+        $uibModalInstance.close();
+      };
+
+    $scope.random = Math.floor((Math.random() * 2) + 1);
+      $scope.color = $scope.random === 1 ? "primary" : "danger";
+    }
 
 })();
 
@@ -4335,438 +4747,6 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
       });
 
     }
-  }
-
-})();
-
-(function() {
-  "use strict";
-
-  angular
-      .module("informApp")
-      .controller("CivicsController", CivicsController);
-
-  CivicsController.$inject = ["$log", "userDataService", "$http", "$state", '$scope'];
-
-  function CivicsController($log, userDataService, $http, $state, $scope) {
-    var vm = this;
-
-    vm.message = "test message";
-    vm.user = userDataService;
-
-
-
-    vm.addAddress = function () {
-      vm.changeAddress = false;
-      var address = vm.street + " " + vm.city + ", " + vm.state + " " + vm.zip;
-      $log.log('Attempgint to get polling information for ', address);
-      return $http({
-        url:     "/api/searchVote",
-        method:  "POST",
-        headers: {"Content-Type": "application/json"},
-        data: angular.toJson({
-          address: address
-        })
-      }).then(function(data) {
-
-        vm.civicsResult = data.data;
-        $log.log('the polling results are', vm.civicsResult);
-        vm.pollingPlace = vm.civicsResult.pollingLocations[0];
-        console.log('the polling information is ', vm.pollingPlace);
-        vm.user.addAddressAndPoll(address, vm.pollingPlace)
-        return vm.pollingPlace;
-      });
-    }
-
-  }
-})();
-
-(function() {
-  "use strict";
-
-  angular
-      .module("informApp")
-      .controller('DropdownController', DropdownController);
-
-  DropdownController.$inject = ["$scope", "$log", "userDataService", "authService", "$state"];
-
-  function DropdownController ($scope, $log, userDataService, authService, $state) {
-
-    var dd = this;
-    dd.user = userDataService;
-    dd.auth = authService;
-    dd.message="hi";
-
-    dd.items = [
-      'Profile',
-      'Logout'
-    ];
-
-
-
-    dd.isCollapsed = true;
-
-    // dd.status = {
-    //   isopen: false
-    // };
-
-    // dd.toggled = function(open) {
-    //   $log.log('Dropdown is now: ', open);
-    // };
-
-    // dd.toggleDropdown = function($event) {
-    //   $event.preventDefault();
-    //   $event.stopPropagation();
-    //   $scope.status.isopen = !$scope.status.isopen;
-    // };
-
-    dd.loadData = function () {
-      userDataService.currentUserData()
-      .then(function() {
-        dd.currentUser = userDataService.currentUser;
-      });
-    }
-
-    dd.loadData();
-
-  };
-
-})();
-
-(function() {
-  "use strict";
-
-  angular
-      .module("informApp")
-      .controller("FeedController", FeedController);
-
-  FeedController.$inject = ["$log", "userDataService", "$http", "searchService", "$state", '$scope'];
-
-
-  function FeedController($log, userDataService, $http, searchService, $state, $scope) {
-    var vm = this;
-
-    vm.message = "fun";
-
-    vm.user = userDataService;
-
-    vm.searchService = searchService;
-
-    // vm.articles = ["hi"];
-
-
-    // vm.user = userDataService;
-
-    vm.search = function (param) {
-      $log.debug("Hit feed search");
-      $state.go('feedPage');
-      vm.query ="";
-      var lowerParam = angular.lowercase(param)
-      searchService.searchCall(lowerParam)
-        .then(function() {
-          //vm.searchService = searchService;
-        //           body.result.docs.forEach(function(date){
-        //   moment(source.enriched.url.publicationDate.date).format('MMMM Do YYYY');
-        // }
-          $log.debug('the results in the feed controller are ', vm.searchService.result);
-          //$state.reload();
-          //$state.go('feedPage');
-        });
-    }
-
-    vm.addPoints = function (sentiment) {
-      vm.user.sendPointInfo(sentiment, vm.searchService.param);
-    }
-
-    vm.currentPage = 0;
-    vm.pageSize = 5;
-    // vm.data = [];
-    vm.numberOfPages=function(){
-        return Math.ceil(vm.searchService.result.result.docs.length/vm.pageSize);
-    }
-    // for (var i=0; i<45; i++) {
-    //     vm.data.push("Item "+i);
-    // }
-
-
-//We already have a limitTo filter built-in to angular,
-//let's make a startFrom filter
-
-
-  }
-
-  angular.module('informApp').filter('startFrom', function() {
-    return function(input, start) {
-        start = +start; //parse to int
-        return input.slice(start);
-    }
-  });
-
-})();
-
-(function() {
-  "use strict";
-
-  angular
-      .module("informApp")
-      .controller("MainController", MainController);
-
-  MainController.$inject = ["$log"];
-
-
-  function MainController($log) {
-    var vm = this;
-
-    vm.message = "fun";
-
-    vm.username;
-    vm.password;
-
-  }
-})();
-
-(function() {
-  "use strict";
-
-  angular
-      .module("informApp")
-      .controller("ModalController", ModalController);
-
-  ModalController.$inject = ['$uibModal', '$scope', '$timeout', 'userDataService', '$state'];
-
-  function ModalController($uibModal, $scope, $timeout, userDataService, $state) {
-
-    $scope.userDataService = userDataService;
-
-    $scope.changeState = function () {
-      $state.go('feedPage');
-    }
-
-    $scope.openLogin = function (){
-
-      var modalInstance = $uibModal.open({
-        animation: true,
-        templateUrl: 'loginModal.html',
-        size: 'sm',
-        controller: ModalInstanceController,
-        resolve: {
-
-        }
-      });
-
-      modalInstance.result.then(function () {
-
-      }, function () {
-        console.log('Modal dismissed at: ' + new Date());
-      });
-
-    };
-
-    $scope.openStarted = function (){
-      var modalInstance = $uibModal.open({
-        animation: true,
-        templateUrl: 'startedModal.html',
-        controller: ModalInstanceController,
-        resolve: {
-
-        }
-      });
-
-      modalInstance.result.then(function () {
-        $scope.openSignUp();
-       }, function () {
-        console.log('Modal dismissed at: ' + new Date());
-      });
-    };
-
-    $scope.openSignUp= function (){
-      var modalInstance = $uibModal.open({
-        animation: true,
-        templateUrl: 'signUpModal.html',
-        controller: ModalInstanceController,
-        resolve: {
-
-        }
-      });
-
-      modalInstance.result.then(function () {
-
-      }, function () {
-        console.log('Modal dismissed at: ' + new Date());
-      });
-    };
-
-
-    $timeout(function(){
-      $scope.showLoginButtons = true;
-    }, 1100);
-
-  }
-
-  angular
-      .module("informApp")
-      .controller("ModalInstanceController", ModalInstanceController);
-
-    ModalInstanceController.$inject = ['$scope', '$uibModalInstance', 'authService', 'userDataService', '$log', '$state'];
-
-    function ModalInstanceController($scope, $uibModalInstance, authService, userDataService, $log, $state) {
-
-      $scope.user = userDataService;
-      $scope.auth = authService;
-
-      $scope.random = Math.floor((Math.random() * 2) + 1);
-      $scope.color = $scope.random === 1 ? "primary" : "danger";
-
-      $scope.ok = function () {
-        $uibModalInstance.close();
-        $state.go('feedPage');
-
-      };
-
-      $scope.createUser = function() {
-        $log.log('creating user!');
-        $scope.user.create()
-          .then(function(data, status, headers, config) {
-            $log.debug("Success:", data,status,headers,config)
-            $scope.failureMessage = "Present any error messages here.";
-            // $scope.user.clear();
-            $uibModalInstance.close();
-            $scope.auth.email = $scope.user.email;
-            $scope.auth.password = $scope.user.password;
-            $scope.logInUser()
-          })
-          .then(function(){
-
-            // $state.go('gamePage');
-          })
-          .catch(function(data, status, headers, config) {
-            $log.debug("Failure:", data,status,headers,config)
-            $scope.successMessage = "Present all of the current user's data here.";
-            $scope.failureMessage = angular.toJson(data.data);
-          });
-      };
-
-      $scope.logInUser = function() {
-
-        $scope.auth.logIn()
-          .then(function(data) {
-            $log.debug("Success:", data)
-             return $scope.user.currentUserData();
-          })
-          .then(function(data) {
-            $log.debug("Success logging user:", data)
-            $scope.user.currentUser = data;
-            $uibModalInstance.close();
-            $state.go('feedPage');
-            $scope.auth.clear();
-
-            $scope.successMessage = angular.toJson(data.data);
-            $scope.failureMessage = "Present any error messages here.";
-          })
-          .catch(function(data, status, headers, config) {
-            $log.debug("Failure:", data, status, headers, config)
-            $scope.successMessage = "Present all of the current user's data here.";
-            $scope.failureMessage = angular.toJson(data.data);
-          });
-      };
-
-      $scope.cancel = function () {
-        $uibModalInstance.dismiss('cancel');
-      };
-
-
-      $scope.getStarted = function () {
-        $uibModalInstance.close();
-      };
-
-      $scope.signUp = function() {
-        $uibModalInstance.close();
-      }
-    };
-})();
-
-(function() {
-  "use strict";
-
-  angular
-      .module("informApp")
-      .controller("ProfileController", ProfileController);
-
-  ProfileController.$inject = ["$log", "userDataService", "$http", "searchService", "$state", '$scope', '$uibModal'];
-
-  function ProfileController($log, userDataService, $http, searchService, $state, $scope, $uibModal) {
-    var vm = this;
-
-    vm.user = userDataService;
-
-    vm.friendSearch = function(friend) {
-      $log.debug("Hit friend search");
-      vm.friend = "";
-      vm.user.searchFriend(friend);
-    }
-
-    vm.followFriend = function(id) {
-      $log.debug('Hit follow friend');
-      vm.user.followUser(id);
-    }
-
-    vm.currentPage = 0;
-    vm.pageSize = 3;
-    // vm.data = [];
-    vm.numberOfPages=function(){
-        return Math.ceil(vm.user.currentUser.queries.length/vm.pageSize);
-    }
-
-    vm.openAlgorithm = function (){
-
-      var modalInstance = $uibModal.open({
-        animation: true,
-        templateUrl: 'algorithmModal.html',
-        controller: ProfileModalController,
-        resolve: {
-        }
-      });
-
-      modalInstance.result.then(function () {
-
-      }, function () {
-        console.log('Modal dismissed at: ' + new Date());
-      });
-
-    };
-
-  }
-
-  angular
-      .module("informApp")
-      .controller("ProfileModalController", ProfileModalController);
-
-    ProfileModalController.$inject = ['$scope', '$uibModalInstance', 'authService', 'userDataService', '$log', '$state'];
-
-    function ProfileModalController($scope, $uibModalInstance,  $log, $state) {
-
-      $scope.ok = function () {
-        $uibModalInstance.close();
-      };
-
-    $scope.random = Math.floor((Math.random() * 2) + 1);
-      $scope.color = $scope.random === 1 ? "primary" : "danger";
-    }
-
-})();
-
-(function() {
-  "use strict";
-
-  angular
-    .module("informApp")
-    .config(configure);
-
-  configure.$inject = ["$httpProvider"];
-
-  function configure($httpProvider) {
-    // console.log("Adding tokenSigningService interceptor.");
-    $httpProvider.interceptors.push("tokenSigningService");
   }
 
 })();

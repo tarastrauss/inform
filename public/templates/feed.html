@@ -1,17 +1,12 @@
 
 <div id="liberty" ng-controller="FeedController as vm">
 <br><br><br>
-<!--   <div class=" chelsea article "> <div class="inside-articles"> <div class=" title"> some title </div>
-    <div class="sentiment"> Sentiment </div>
-   </div> </div> -->
-
-
   <div class="chelsea" id="api-limit" ng-if="vm.searchService.result.status == 'ERROR'"> Unfortunately this application uses an API that has a limited calls per day and the limit has been reached. Try again later! </div>
   <div class="articles"  ng-if="vm.searchService.result.status == 'OK'" ng-repeat="article in vm.searchService.result.result.docs | startFrom:vm.currentPage*vm.pageSize | limitTo:vm.pageSize">
     <div class="article">
       <div class="inside-articles">
         <a class="chelsea title" target="_blank" href="{{article.source.enriched.url.url}}" ng-click="vm.addPoints(article.source.enriched.url.enrichedTitle.docSentiment.type)"> {{article.source.enriched.url.title}}</a>
-        <div class="author chelsea" ng-if="article.source.enriched.url.author && article.source.enriched.url.author != 'Authors'"> {{article.source.enriched.url.author}} </div>
+        <div class="author chelsea" ng-if="article.source.enriched.url.author && article.source.enriched.url.author != 'Authors' && article.source.enriched.url.author != '[deleted]'"> {{article.source.enriched.url.author}} </div>
         <div class="chelsea"> {{article.source.enriched.url.publicationDate.date | amDateFormat:'MMMM Do YYYY'}} </div>
         <div class="sentiment"> {{article.source.enriched.url.enrichedTitle.docSentiment.type}} sentiment</div>
       </div>

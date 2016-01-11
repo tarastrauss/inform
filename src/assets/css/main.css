@@ -1,5 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Raleway:300);
-@import url(https://fonts.googleapis.com/css?family=Yantramanav:300);
+@import url(https://fonts.googleapis.com/css?family=Yantramanav:500);
 
 body {
   margin: 0px;
@@ -126,6 +126,7 @@ body {
 
 .nav-options {
   display: inline-block;
+  font-size: 16px;
 }
 #options {
   margin-left: 10px;
@@ -177,11 +178,18 @@ body {
 
 #dropdown {
   margin-top: -7px;
-  font-family: 'Chelsea Market';
+  font-family: Yantramanav;
+  font-size: 16px;
+
+}
+
+.dropdown-item {
+    font-family: Yantramanav;
+  font-size: 16px;
 }
 
 .chelsea {
-    font-family: 'Chelsea Market';
+    font-family: Yantramanav;
 
 }
 
@@ -444,7 +452,7 @@ body {
   text-align: center;
 }
 
-#vote-page {
+#vote-page, #candidate-page {
     background-image: url("/assets/img/liberty.jpg");
 
     background-repeat: no-repeat;
@@ -456,7 +464,7 @@ body {
   margin-bottom: -25px;
 }
 
-#vote {
+#vote, #candidates {
   height: 83%;
   width: 60%;
   margin: 0 auto;
@@ -476,6 +484,11 @@ body {
   -webkit-animation-duration:1.5s;
   -moz-animation-duration:1.5s;
   animation-duration:1.5s;
+}
+#check-back {
+  font-size: 16px;
+  color: black;
+  opacity: 1;
 }
 
 #api-limit {
@@ -502,4 +515,13 @@ body {
   -webkit-animation-duration:1.5s;
   -moz-animation-duration:1.5s;
   animation-duration:1.5s;
+}
+
+#construction {
+  text-align: center;
+  margin-top: 120px;
+}
+
+#no-searches {
+  font-size: 16px;
 }

@@ -2,7 +2,7 @@
   <br><br><br>
   <div class="container-fluid" id="profile">
     <h2 class="chelsea" id="profile-title">{{vm.user.currentUser.firstName}}'s Profile</h2>
-    <div id="profile-info">
+    <div id="profile-info" class="chelsea">
       <div class="user-category"> First Name: </div><div class="user-info"> {{vm.user.currentUser.firstName}} </div><br>
       <div class="user-category"> Last Name: </div><div class="user-info"> {{vm.user.currentUser.lastName}} </div><br>
       <div class="user-category"> Email: </div><div class="user-info"> {{vm.user.currentUser.email}} </div><br>
@@ -12,7 +12,8 @@
     </div><br>
     <div id="query-info">
       <h4 class="chelsea" id="query-title"> Search History </h4>
-      <div class="bars" ng-repeat="query in vm.user.currentUser.queries  | startFrom:vm.currentPage*vm.pageSize | limitTo:vm.pageSize">
+      <div class="chelsea" id="no-searches" ng-if="vm.user.currentUser.queries.length == 0"> No searches yet! Use the navbar at the top of the page to search for news.</div>
+      <div class="bars chelsea" ng-repeat="query in vm.user.currentUser.queries  | startFrom:vm.currentPage*vm.pageSize | limitTo:vm.pageSize">
         <div class="query-param"> "{{query.queryInput}}" </div>
         articles with positive sentiment
         <div class="progress">

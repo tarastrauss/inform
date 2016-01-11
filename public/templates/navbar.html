@@ -1,28 +1,25 @@
 <nav class="navbar navbar-default navbar-fixed-top" >
   <div class="container-fluid">
     <div class="navbar-header navbar-brand">
-      <!-- <span role="presentation" ui-sref-active="active"> -->
-        <!-- <a ui-sref="profilePage">Profile ( {{vm.user.name}} )</a> -->
         <div ng-controller="DropdownController as dd" ng-init="dd.loadData()">
-
           <span  uib-dropdown on-toggle="toggled(open)" >
-            <a id="dropdown" class="btn btn-default" id="user" href id="simple-dropdown" uib-dropdown-toggle ng-click="isCollapsed = !isCollapsed">
-              {{dd.user.currentUser.firstName}} ( {{dd.user.currentUser.points}} )  <span class="caret"></span>
+            <a id="dropdown" class="btn btn-default" id="user" href id="simple-dropdown" uib-dropdown-toggle ng-click="dd.isCollapsed = !dd.isCollapsed">
+              {{dd.user.currentUser.firstName}} ( {{dd.user.currentUser.points}} )  &nbsp;<span class="caret"></span>
             </a>
-            <ul class="uib-dropdown-menu" aria-labelledby="simple-dropdown" uib-collapse="!isCollapsed">
+            <ul uib-dropdown-menu aria-labelledby="simple-dropdown" uib-collapse="dd.isCollapsed">
               <li role="menuitem">
-                <a class="chelsea" ui-sref="profilePage"> Profile</a>
+                <a class="chelsea dropdown-item" ui-sref="profilePage"> Profile</a>
               </li>
               <li role="menuitem">
-                <a class="chelsea" ui-sref="friendsPage"> Friends</a>
+                <a class="chelsea dropdown-item" ui-sref="friendsPage"> Friends</a>
               </li>
+              <li class="divider"></li>
               <li role="menuitem">
-                <a class="chelsea" ng-click="dd.auth.logOut()" ui-sref="landingPage">Logout</a>
+                <a class="chelsea dropdown-item" ng-click="dd.auth.logOut()" ui-sref="landingPage">Logout</a>
               </li>
             </ul>
           </span>
         </div>
-       <!-- </span> -->
     </div>
 
     <div class="collapse navbar-collapse">
@@ -35,7 +32,7 @@
           <a class="chelsea" ui-sref="candidatesPage">Candidates</a>
         </li>
         <li class="nav-options" role="presentation" ui-sref-active="active">
-          <a class="chelsea" ui-sref="votePage">Votes</a>
+          <a class="chelsea" ui-sref="votePage">Vote</a>
         </li>
       </ul>
       <div id="search-nav" ng-controller="FeedController as fd" >
