@@ -146,9 +146,10 @@
       });
     }
 
-    function addAddressAndPoll(addy, pollingLocation, state) {
+    function addAddressAndPoll(addy, pollingLocation, state, elections) {
      $log.debug("Attempting to user address", addy);
      $log.debug("Attempting to user url", state);
+     $log.debug("Attempting to user url", elections);
       return $http({
         url:     "/api/addAddress",
         method:  "POST",
@@ -156,7 +157,8 @@
         data: angular.toJson({
          address: addy,
          pollingLocation: pollingLocation,
-         state: state
+         state: state,
+         elections: elections
         })
       }).then(function(data) {
         user.currentUser = data.data.data;

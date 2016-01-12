@@ -4056,7 +4056,7 @@ return a>v||p>a&&u>a},a.noDecrementHours=function(){var a=n(p,60*-s);return u>a|
         $log.log('the polling results are', vm.civicsResult);
         vm.pollingPlace = vm.civicsResult.pollingLocations[0];
         console.log('the polling information is ', vm.pollingPlace);
-        vm.user.addAddressAndPoll(address, vm.pollingPlace, vm.civicsResult.state[0])
+        vm.user.addAddressAndPoll(address, vm.pollingPlace, vm.civicsResult.state[0], vm.civicsResult.contests)
         return vm.pollingPlace;
       });
     }
@@ -4731,9 +4731,10 @@ return a>v||p>a&&u>a},a.noDecrementHours=function(){var a=n(p,60*-s);return u>a|
       });
     }
 
-    function addAddressAndPoll(addy, pollingLocation, state) {
+    function addAddressAndPoll(addy, pollingLocation, state, elections) {
      $log.debug("Attempting to user address", addy);
      $log.debug("Attempting to user url", state);
+     $log.debug("Attempting to user url", elections);
       return $http({
         url:     "/api/addAddress",
         method:  "POST",
@@ -4741,7 +4742,8 @@ return a>v||p>a&&u>a},a.noDecrementHours=function(){var a=n(p,60*-s);return u>a|
         data: angular.toJson({
          address: addy,
          pollingLocation: pollingLocation,
-         state: state
+         state: state,
+         elections: elections
         })
       }).then(function(data) {
         user.currentUser = data.data.data;

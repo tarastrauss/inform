@@ -32,7 +32,7 @@
         $log.log('the polling results are', vm.civicsResult);
         vm.pollingPlace = vm.civicsResult.pollingLocations[0];
         console.log('the polling information is ', vm.pollingPlace);
-        vm.user.addAddressAndPoll(address, vm.pollingPlace, vm.civicsResult.state[0])
+        vm.user.addAddressAndPoll(address, vm.pollingPlace, vm.civicsResult.state[0], vm.civicsResult.contests)
         return vm.pollingPlace;
       });
     }
