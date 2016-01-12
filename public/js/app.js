@@ -3979,6 +3979,19 @@ return a>v||p>a&&u>a},a.noDecrementHours=function(){var a=n(p,60*-s);return u>a|
         controller: "CivicsController",
         controllerAs: "vm",
       })
+      .state("propositionsPage", {
+        url: "/propositions",
+        views: {
+          nav: {
+            templateUrl: '/templates/navbar.html'
+          },
+          content: {
+            templateUrl: "/templates/propositions.html"
+          }
+        },
+        controller: "CivicsController",
+        controllerAs: "vm",
+      })
       .state("feedPage", {
         url: "/feed",
         views: {
@@ -4037,7 +4050,8 @@ return a>v||p>a&&u>a},a.noDecrementHours=function(){var a=n(p,60*-s);return u>a|
     vm.message = "test message";
     vm.user = userDataService;
 
-
+    vm.currentPage = 0;
+    vm.pageSize = 5;
 
     vm.addAddress = function () {
       vm.changeAddress = false;
@@ -4060,6 +4074,14 @@ return a>v||p>a&&u>a},a.noDecrementHours=function(){var a=n(p,60*-s);return u>a|
         return vm.pollingPlace;
       });
     }
+
+    vm.oneAtATime = true;
+
+
+    vm.status = {
+      isFirstOpen: true,
+      isFirstDisabled: false
+    };
 
   }
 })();

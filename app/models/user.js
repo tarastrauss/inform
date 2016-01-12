@@ -34,8 +34,7 @@ var voteSchema = new mongoose.Schema({
   myLocationZip: String,
   myLocationState: String,
   myVoteUrl: String,
-  myElections: Array,
-  elections: [electionSchema]
+  elections: [mongoose.Schema.Types.Mixed]
 });
 
 

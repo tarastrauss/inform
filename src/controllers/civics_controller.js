@@ -13,7 +13,8 @@
     vm.message = "test message";
     vm.user = userDataService;
 
-
+    vm.currentPage = 0;
+    vm.pageSize = 5;
 
     vm.addAddress = function () {
       vm.changeAddress = false;
@@ -36,6 +37,14 @@
         return vm.pollingPlace;
       });
     }
+
+    vm.oneAtATime = true;
+
+
+    vm.status = {
+      isFirstOpen: true,
+      isFirstDisabled: false
+    };
 
   }
 })();

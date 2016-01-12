@@ -2,6 +2,7 @@
   <br><br><br>
   <div class="container-fluid" id="profile">
     <h2 class="chelsea" id="profile-title">{{vm.user.currentUser.firstName}}'s Profile</h2>
+    <hr width="60%">
     <div id="profile-info" class="chelsea">
       <div class="user-category"> First Name: </div><div class="user-info"> {{vm.user.currentUser.firstName}} </div><br>
       <div class="user-category"> Last Name: </div><div class="user-info"> {{vm.user.currentUser.lastName}} </div><br>
@@ -10,6 +11,7 @@
       <div ng-if="vm.user.currentUser.address" id="user-address" class="user-category"> Address: </div><div ng-if="vm.user.currentUser.address" class="user-info"> {{vm.user.currentUser.address}} </div><br ng-if="vm.user.currentUser.address">
       <div class="user-category red"> Inform Points: </div><div class="user-info red"> {{vm.user.currentUser.points}} <button class="btn" id="learn-more" ng-click="vm.openAlgorithm()">Learn more </button></div><br>
     </div><br>
+    <hr id="query-bar" width="60%">
     <div id="query-info">
       <h4 class="chelsea" id="query-title"> Search History </h4>
       <div class="chelsea" id="no-searches" ng-if="vm.user.currentUser.queries.length == 0"> No searches yet! Use the navbar at the top of the page to search for news.</div>

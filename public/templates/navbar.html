@@ -11,6 +11,9 @@
                 <a class="chelsea dropdown-item" ui-sref="profilePage"> Profile</a>
               </li>
               <li role="menuitem">
+                <a class="chelsea dropdown-item" ui-sref="votePage"> Vote Information</a>
+              </li>
+              <li role="menuitem">
                 <a class="chelsea dropdown-item" ui-sref="friendsPage"> Friends</a>
               </li>
               <li class="divider"></li>
@@ -29,18 +32,21 @@
           <a class="chelsea" ui-sref="feedPage">News Feed</a>
         </li>
         <li class="nav-options" role="presentation" ui-sref-active="active">
-          <a class="chelsea" ui-sref="candidatesPage">Candidates</a>
+          <a class="chelsea" ui-sref="candidatesPage">Elections</a>
         </li>
         <li class="nav-options" role="presentation" ui-sref-active="active">
-          <a class="chelsea" ui-sref="votePage">Vote</a>
+          <a class="chelsea" ui-sref="propositionsPage">State Propositions</a>
         </li>
+<!--         <li class="nav-options" role="presentation" ui-sref-active="active">
+          <a class="chelsea" ui-sref="votePage">Vote</a>
+        </li> -->
       </ul>
       <div id="search-nav" ng-controller="FeedController as fd" >
         <form class="navbar-form navbar-right" role="search" ng-submit="fd.search(fd.query)">
           <div class="form-group">
             <input type="text" ng-model="fd.query" class="form-control chelsea" placeholder="Barack Obama">
           </div>&nbsp;&nbsp;
-          <button type="submit" class="btn btn-warning chelsea">Search for News</button>
+          <button type="submit" id="search-nav-btn" class="btn btn-warning chelsea">Search for News</button>
         </form>
       </div>
     </div>

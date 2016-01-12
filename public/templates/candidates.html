@@ -1,8 +1,41 @@
-<div id="candidate-page" ng-controller="CivicsController as vm">
+  <script type="text/ng-template" id="candidate-template.html">
+    <div class="panel {{panelClass || 'panel-default'}}">
+      <div class="panel-heading">
+        <h4 class="panel-title" style="color:#fa39c3">
+          <a href tabindex="0" class="accordion-toggle" ng-click="toggleOpen()" uib-accordion-transclude="heading"><span
+            ng-class="{'text-muted': isDisabled}">{{heading}}</span></a>
+        </h4>
+      </div>
+      <div class="panel-collapse collapse" uib-collapse="!isOpen">
+        <div class="panel-body" style="text-align: right" ng-transclude></div>
+      </div>
+    </div>
+  </script>
+
+<div id="candidate-page" class="liberty2" ng-controller="CivicsController as vm">
   <br><br><br>
   <div class="container-fluid" id="candidates">
-    <h3 class="chelsea" id="construction"> This feature is under construction. Check back soon for
-      updates! </h3>
+    <h3 ng-if="vm.user.currentUser.voteInfo.elections.length == 0" class="chelsea" id="construction"> Enter your address
+    <a class="chelsea" ui-sref="votePage">here </a>to find out election information in your area </h3>
+    <div class="chelsea candidates-title"> Check back soon for information on upcoming elections. </div>
+    <hr width="65%">
+    <div class="chelsea candidates-title"> Previous Elections </div>
+      <uib-accordion close-others="vm.oneAtATime">
+        <uib-accordion-group class="acc chelsea" ng-if="election.office != undefined" heading="{{election.office}}" ng-repeat="election in vm.user.currentUser.voteInfo.elections">
+          <div class="election-info"> District:</div> <div class="candidate-info"> {{election.district.name}} ({{election.district.scope}})</div> <br>
+          <div class="election-info" > Candidates:  </div>
+          <div ng-repeat="candidate in election.candidates">
+            <div class="candidate-info"><a target="_blank" href="{{candidate.channels[0].id}}"> {{candidate.name}}
+              </a> ({{candidate.party}})
+            </div>
+
+            <!-- <div> {{candidate.party}} </div> -->
+          </div>
+        </uib-accordion-group>
+
+      </uib-accordion>
+
+
   </div>
 
 

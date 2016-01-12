@@ -1,0 +1,23 @@
+<div id="prop-page" class="liberty2" ng-controller="CivicsController as vm">
+  <br><br><br>
+  <div class="container-fluid" id="props">
+    <h3 ng-if="vm.user.currentUser.voteInfo.elections.length == 0" class="chelsea" id="construction"> Enter your address
+    <a class="chelsea" ui-sref="votePage">here </a>to find out state propositions information.</h3>
+    <h3 class="chelsea candidates-title"> Check back soon for information on upcoming state initiatives! </h3>
+    <hr width="65%">
+    <h3 class="chelsea candidates-title"> Previous State Initiatives </h3>
+      <uib-accordion  close-others="vm.oneAtATime">
+        <uib-accordion-group class="acc chelsea" ng-if="election.referendumTitle != undefined" heading="{{election.referendumTitle}}" ng-repeat="election in vm.user.currentUser.voteInfo.elections">
+          <a class="prop-name" href="{{election.referendumUrl}}" >{{election.referendumSubtitle}} </a>
+          <div class="prop-scope"> {{election.district.name}} ({{election.district.scope}}) </div>
+        </uib-accordion-group>
+
+      </uib-accordion>
+<!--     <div class="chelsea" id="election" ng-repeat="election in vm.user.currentUser.voteInfo.elections | startFrom:vm.currentPage*vm.pageSize | limitTo:vm.pageSize">
+      <h2> {{election.office}} </h2>
+    </div> -->
+
+  </div>
+
+
+</div>
