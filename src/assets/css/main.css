@@ -18,6 +18,12 @@ body {
   height: 100vh;
 }
 
+hr {
+  background: black;
+  color: black;
+  opacity:1;
+}
+
 #liberty {
   background-image: url("/assets/img/liberty.jpg");
   /*background-size: cover;*/
@@ -50,7 +56,19 @@ body {
   background-position: center;
   background-position: top;
   margin-top: 25px;
-  height: 750px;
+  height: 700px;
+  margin-bottom: -25px;
+}
+
+#candidate-page {
+    background-image: url("/assets/img/liberty.jpg");
+
+  background-repeat: no-repeat;
+  background-color: black;
+  background-position: center;
+  background-position: top;
+  margin-top: 25px;
+  height: 1150px;
   margin-bottom: -25px;
 }
 #landing-mid {
@@ -126,7 +144,7 @@ body {
 }
 
 #search-nav-btn {
-  margin-right: 25px;
+  margin-right: 40px;
 }
 
 .navbar {
@@ -134,11 +152,12 @@ body {
 }
 
 #nav-inform {
-  color: black;
+  /*color: #53456F;*/
+  color: #4C3F71;
   text-align: center;
   padding-top: 7px;
-  margin-left: 4%;
-  margin-right: 4%;
+  margin-left: 3%;
+  margin-right: 2%;
 }
 .play {
   font-family: Play;
@@ -149,7 +168,7 @@ body {
   font-size: 16px;
 }
 #options {
-  margin-left: 6px;
+  margin-left: 15px;
 }
 .intro {
   margin: 10px;
@@ -197,12 +216,31 @@ body {
 }
 
 #dropdown {
-  margin-top: -7px;
+  margin-top: -8px;
     font-family: Comfortaa;;
     font-weight: 700;
   font-size: 16px;
-
+  background-color: black;
+  color: grey;
+  border: 2px solid black;
+  width: 161px;
 }
+
+#dd {
+  background-color: #39393A;
+  margin-top: 6px;
+}
+
+.dropdown-menu>li>a  {
+  color: grey;
+}
+
+#divide {
+  background-color: #A4A4A4;
+  color: #A4A4A4;
+  border: 1px solid orange;
+}
+
 
 .dropdown-item {
       font-family: Comfortaa;;
@@ -232,6 +270,10 @@ body {
 
 .login-body{
   width: 55%;
+  margin: 0 auto;
+}
+#score-modal {
+  width: 70%;
   margin: 0 auto;
 }
 
@@ -342,8 +384,30 @@ body {
   animation-duration:1.5s;
 }
 
+#candidates {
+  height: 1050px;
+  width: 60%;
+  margin: 0 auto;
+  padding-top: 20px;
+  background-color: white;
+  /*opacity: .50;*/
+  border-radius: 5px;
+  opacity:0;  /* make things invisible upon start */
+  -webkit-animation:fadeIn ease-in .7;  /* call our keyframe named fadeIn, use animattion ease-in and repeat it only 1 time */
+  -moz-animation:fadeIn ease-in .7;
+  animation:fadeIn ease-in .7;
+
+  -webkit-animation-fill-mode:forwards;  /* this makes sure that after animation is done we remain at the last keyframe value (opacity: 1)*/
+  -moz-animation-fill-mode:forwards;
+  animation-fill-mode:forwards;
+
+  -webkit-animation-duration:1.5s;
+  -moz-animation-duration:1.5s;
+  animation-duration:1.5s;
+}
+
  #props {
-  height: 650px;
+  height: 600px;
   width: 60%;
   margin: 0 auto;
   padding-top: 20px;
@@ -368,7 +432,7 @@ body {
 
 #profile-title, #friends-title, #address-title {
   opacity: 1;
-  color: black;
+
   text-align: center;
 
 }
@@ -382,7 +446,7 @@ body {
 .user-category {
   font-size: 18px;
   opacity: 1;
-  color: black;
+
   text-align: left;
   margin-top: 0;
   width: 160px;
@@ -400,14 +464,14 @@ body {
   text-align: left;
   font-size: 18px;
   opacity: 1;
-  color: black;
+
 }
 #query-info {
   width: 50%;
   margin: 0 auto;
   margin-top: 20px;
   opacity: 1;
-  color: black;
+
 }
 #query-title{
   text-align: center;
@@ -533,7 +597,7 @@ body {
 }
 #check-back {
   font-size: 16px;
-  color: black;
+
   opacity: 1;
 }
 

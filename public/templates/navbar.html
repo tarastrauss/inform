@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default navbar-fixed-top" >
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse" >
   <div class="container-fluid">
     <div class="navbar-header navbar-brand">
         <div ng-controller="DropdownController as dd" ng-init="dd.loadData()">
@@ -6,18 +6,18 @@
             <a id="dropdown" class="btn btn-default" id="user" href id="simple-dropdown" uib-dropdown-toggle ng-click="dd.isCollapsed = !dd.isCollapsed">
               {{dd.user.currentUser.firstName}} ( {{dd.user.currentUser.points}} )  &nbsp;<span class="caret"></span>
             </a>
-            <ul uib-dropdown-menu aria-labelledby="simple-dropdown" uib-collapse="dd.isCollapsed">
-              <li role="menuitem">
+            <ul id="dd" uib-dropdown-menu aria-labelledby="simple-dropdown" uib-collapse="dd.isCollapsed">
+              <li class="dd-color" role="menuitem">
                 <a class="chelsea dropdown-item" ui-sref="profilePage"> Profile</a>
               </li>
-              <li role="menuitem">
-                <a class="chelsea dropdown-item" ui-sref="votePage"> Vote Information</a>
+              <li class="dd-color" role="menuitem">
+                <a class="chelsea dropdown-item" ui-sref="votePage"> Vote</a>
               </li>
-              <li role="menuitem">
+              <li class="dd-color" role="menuitem">
                 <a class="chelsea dropdown-item" ui-sref="friendsPage"> Friends</a>
               </li>
-              <li class="divider"></li>
-              <li role="menuitem">
+              <li id="divide" class="divider"></li>
+              <li class="dd-color" role="menuitem">
                 <a class="chelsea dropdown-item" ng-click="dd.auth.logOut()" ui-sref="landingPage">Logout</a>
               </li>
             </ul>
@@ -29,7 +29,7 @@
       <h2 class="nav navbar-nav play" id="nav-inform"> I N F O R M <small><em> yourself</em></small></h2>
       <ul class="nav navbar-nav navbar-right" id="options">
         <li class="nav-options" role="presentation" ui-sref-active="active">
-          <a class="chelsea" ui-sref="feedPage">News Feed</a>
+          <a class="chelsea" ui-sref="feedPage">News</a>
         </li>
         <li class="nav-options" role="presentation" ui-sref-active="active">
           <a class="chelsea" ui-sref="candidatesPage">Elections</a>
