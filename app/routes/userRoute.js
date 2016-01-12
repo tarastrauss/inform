@@ -161,10 +161,43 @@ module.exports = function(app, errorHandler) {
       });
     });
 
+
+
+  app.post('/api/clickedProp',
+    checkForToken,
+    validateToken,
+    function(req, res, next) {
+
+      User.findOne({email: req.decoded.email}, function(err, user){
+          if (user) {
+            var notClicked = true;
+            user.propsClicked.forEach(function(prop) {
+              if (prop == req.body.prop) {
+                notClicked = false;
+              }
+            });
+            if (notClicked) {
+              user.propsClicked.push(req.body.prop);
+              user.points++;
+            }
+            user.save(function(err){
+              res.json({
+                success: true,
+                message: 'Successfully updated prop click.',
+                data: user
+              });
+            });
+
+          }
+
+      });
+    });
+
   app.post('/api/followUser',
 
     checkForToken,
     validateToken,
+
 
     function(req, res, next) {
       // var searchEmail = req.get('email');

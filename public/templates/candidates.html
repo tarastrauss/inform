@@ -15,26 +15,27 @@
 <div id="candidate-page" class="liberty2" ng-controller="CivicsController as vm">
   <br><br><br>
   <div class="container-fluid" id="candidates">
-    <h3 ng-if="vm.user.currentUser.voteInfo.elections.length == 0" class="chelsea" id="construction"> Enter your address
-    <a class="chelsea" ui-sref="votePage">here </a>to find out election information in your area </h3>
-    <div class="chelsea candidates-title"> Check back soon for information on upcoming elections! </div>
-    <hr width="65%">
-    <div class="chelsea candidates-title"> Previous Elections </div>
-      <uib-accordion close-others="vm.oneAtATime">
-        <uib-accordion-group class="acc chelsea" ng-if="election.office != undefined" heading="{{election.office}}" ng-repeat="election in vm.user.currentUser.voteInfo.elections">
-          <div class="election-info"> District:</div> <div class="candidate-info"> {{election.district.name}} ({{election.district.scope}})</div> <br>
-          <div class="election-info" > Candidates:  </div>
-          <div ng-repeat="candidate in election.candidates">
-            <div class="candidate-info"><a ng-click="vm.user.addElectionClick(election.office, candidate.name, candidate.party)" target="_blank" href="{{candidate.channels[0].id}}"> {{candidate.name}}
-              </a> ({{candidate.party}})
+    <h4 ng-if="vm.user.currentUser.voteInfo.elections == undefined" class="chelsea" id="construction"> Enter your address
+    <a class="chelsea" ui-sref="votePage">here </a>to find out election information in your area </h4>
+    <span ng-if="vm.user.currentUser.voteInfo.elections">
+      <div class="chelsea candidates-title"> Check back soon for information on upcoming elections! </div>
+      <hr width="65%">
+      <div class="chelsea candidates-title"> Previous Elections </div>
+        <uib-accordion close-others="vm.oneAtATime">
+          <uib-accordion-group class="acc chelsea" ng-if="election.office != undefined" heading="{{election.office}}" ng-repeat="election in vm.user.currentUser.voteInfo.elections">
+            <div class="election-info"> District:</div> <div class="candidate-info"> {{election.district.name}} ({{election.district.scope}})</div> <br>
+            <div class="election-info" > Candidates:  </div>
+            <div ng-repeat="candidate in election.candidates">
+              <div class="candidate-info"><a ng-click="vm.user.addElectionClick(election.office, candidate.name, candidate.party)" target="_blank" href="{{candidate.channels[0].id}}"> {{candidate.name}}
+                </a> ({{candidate.party}})
+              </div>
+
+              <!-- <div> {{candidate.party}} </div> -->
             </div>
+          </uib-accordion-group>
 
-            <!-- <div> {{candidate.party}} </div> -->
-          </div>
-        </uib-accordion-group>
-
-      </uib-accordion>
-
+        </uib-accordion>
+      </span>
 
   </div>
 

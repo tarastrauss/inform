@@ -51,7 +51,8 @@ var userSchema = new mongoose.Schema({
   voteInfo: voteSchema,
   posts: String,
   email: String,
-  address: String
+  address: String,
+  propsClicked: [String]
 });
 
 // add bcrypt hashing to model (works on a password field)!

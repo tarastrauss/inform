@@ -1,6 +1,12 @@
 
 <div id="liberty" ng-controller="FeedController as vm">
 <br><br><br>
+  <div class="chelsea article" ng-if="vm.searchService.result.length == 0">
+    <div <div class="inside-articles">
+      <h4> Use the search bar above to find news! </h4>
+    </div>
+  </div>
+
   <div class="chelsea" id="api-limit" ng-if="vm.searchService.result.status == 'ERROR'"> Unfortunately this application uses an API that has a limited calls per day and the limit has been reached. Try again later! </div>
   <div class="articles"  ng-if="vm.searchService.result.status == 'OK'" ng-repeat="article in vm.searchService.result.result.docs | startFrom:vm.currentPage*vm.pageSize | limitTo:vm.pageSize">
     <div class="article">

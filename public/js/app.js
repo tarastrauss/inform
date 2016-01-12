@@ -4636,8 +4636,8 @@ return a>v||p>a&&u>a},a.noDecrementHours=function(){var a=n(p,60*-s);return u>a|
       friend:          {},
       followUser:      followUser,
       addAddressAndPoll:      addAddressAndPoll,
-      addElectionClick: addElectionClick
-
+      addElectionClick: addElectionClick,
+      addPropClick:    addPropClick
     };
 
     return user;
@@ -4795,6 +4795,23 @@ return a>v||p>a&&u>a},a.noDecrementHours=function(){var a=n(p,60*-s);return u>a|
          race: race,
          name: name,
          party: party
+        })
+      }).then(function(data) {
+        user.currentUser = data.data.data;
+        $log.log('User is', data.data.data);
+        $log.debug(data.data.message);
+        return user.currentUser;
+      });
+    }
+
+    function addPropClick(prop) {
+     $log.debug("Attempting to add click for prop: ", prop);
+      return $http({
+        url:     "/api/clickedProp",
+        method:  "POST",
+        headers: {"Content-Type": "application/json"},
+        data: angular.toJson({
+         prop: prop
         })
       }).then(function(data) {
         user.currentUser = data.data.data;
