@@ -1,6 +1,5 @@
 // Require mongoose to create a model.
 var mongoose = require('mongoose');
-var candidateSchema = require('./candidate');
 
 mongoose.Promise = Promise;
 
@@ -18,11 +17,12 @@ var friendSchema = new mongoose.Schema({
   points: Number
 });
 
-var electionSchema = new mongoose.Schema({
+var candidateSchema = new mongoose.Schema({
   race: String,
-  district: String,
-  date: Date,
-  candidates: [candidateSchema]
+  clickedCandidates: [String],
+  clickedDem: Boolean,
+  clickedRep: Boolean,
+  clickedIn: Boolean
 });
 
 
@@ -34,7 +34,8 @@ var voteSchema = new mongoose.Schema({
   myLocationZip: String,
   myLocationState: String,
   myVoteUrl: String,
-  elections: [mongoose.Schema.Types.Mixed]
+  elections: [mongoose.Schema.Types.Mixed],
+  researchedCandidates: [candidateSchema]
 });
 
 

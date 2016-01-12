@@ -38,6 +38,11 @@
       });
     }
 
+    vm.addElectionClick = function(race, name, party) {
+      $log.log("adding election click!");
+      vm.user.addElectionClick(race, name, party);
+    }
+
     vm.oneAtATime = true;
 
 

@@ -93,8 +93,73 @@ module.exports = function(app, errorHandler) {
           else {
             res.send('User cannot be found');
           }
+      });
     });
-  });
+
+
+  app.post('/api/clickedCandidate',
+    checkForToken,
+    validateToken,
+    function(req, res, next) {
+
+      User.findOne({email: req.decoded.email}, function(err, user){
+          if (user) {
+            var notClickedYet = true;
+            user.voteInfo.researchedCandidates.forEach(function(election) {
+              if (election.race == req.body.race) {
+                notClickedYet = false;
+                var noCandidate = true;
+                election.clickedCandidates.forEach(function(candidate){
+                  if (candidate == req.body.name) {
+                    noCandidate = false;
+                  }
+                });
+                if (noCandidate) {
+                  election.clickedCandidates.push(req.body.name);
+                  user.points++;
+                  if (req.body.party == "Democratic") {
+                    election.clickedDem = true;
+                  } else if (req.body.party == "Republican") {
+                    election.clickedRep = true;
+                  } else {
+                    election.clickedIn = true;
+                  }
+                  user.points += 3;
+                }
+              }
+            });
+            if (notClickedYet) {
+              user.points++;
+              if (req.body.party == "Democratic") {
+                user.voteInfo.researchedCandidates.push({
+                  race: req.body.race,
+                  clickedDem: true,
+                  clickedCandidates: [req.body.name]
+                });
+              } else if (req.body.party == "Republican") {
+                 user.voteInfo.researchedCandidates.push({
+                  race: req.body.race,
+                  clickedRep: true,
+                  clickedCandidates: [req.body.name]
+                });
+              } else {
+                user.voteInfo.researchedCandidates.push({
+                  race: req.body.race,
+                  clickedIn: true,
+                  clickedCandidates: [req.body.name]
+                });
+              }
+            }
+            user.save(function(err){
+              res.json({
+                success: true,
+                message: 'Successfully added candidate click.',
+                data: user
+              });
+            });
+          }
+      });
+    });
 
   app.post('/api/followUser',
 

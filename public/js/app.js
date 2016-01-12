@@ -4075,6 +4075,11 @@ return a>v||p>a&&u>a},a.noDecrementHours=function(){var a=n(p,60*-s);return u>a|
       });
     }
 
+    vm.addElectionClick = function(race, name, party) {
+      $log.log("adding election click!");
+      vm.user.addElectionClick(race, name, party);
+    }
+
     vm.oneAtATime = true;
 
 
@@ -4630,7 +4635,9 @@ return a>v||p>a&&u>a},a.noDecrementHours=function(){var a=n(p,60*-s);return u>a|
       searchFriend:    searchFriend,
       friend:          {},
       followUser:      followUser,
-      addAddressAndPoll:      addAddressAndPoll
+      addAddressAndPoll:      addAddressAndPoll,
+      addElectionClick: addElectionClick
+
     };
 
     return user;
@@ -4766,6 +4773,28 @@ return a>v||p>a&&u>a},a.noDecrementHours=function(){var a=n(p,60*-s);return u>a|
          pollingLocation: pollingLocation,
          state: state,
          elections: elections
+        })
+      }).then(function(data) {
+        user.currentUser = data.data.data;
+        $log.log('User is', data.data.data);
+        $log.debug(data.data.message);
+        return user.currentUser;
+      });
+
+    }
+
+    function addElectionClick(race, name, party) {
+     $log.debug("Attempting to add click for race: ", race);
+     $log.debug("Attempting to add click for name: ", name);
+     $log.debug("Attempting to add click for party: ", party);
+      return $http({
+        url:     "/api/clickedCandidate",
+        method:  "POST",
+        headers: {"Content-Type": "application/json"},
+        data: angular.toJson({
+         race: race,
+         name: name,
+         party: party
         })
       }).then(function(data) {
         user.currentUser = data.data.data;
