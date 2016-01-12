@@ -1,5 +1,6 @@
 var jwt  = require('jsonwebtoken'),
     User = require('../models/user'),
+    News = require('../models/news'),
     request = require('request'),
     moment = require('moment');
 
@@ -9,32 +10,85 @@ module.exports = function(app, errorHandler) {
   app.post('/api/search',
 
         // validations
-    checkForToken,
-    validateToken,
+    // checkForToken,
+    // validateToken,
 
     function(req, res, next) {
-      // console.log('Request made to /search with token:', req.decoded);
-
-      // User.findOne({email: req.decoded.email}).exec()
-      //     .then(function(user) {
-      //       res.json({
-      //         success: true,
-      //         message: 'Successfully retrieved user data for search.',
-      //         data: user
-      //       });
-      //   }).catch(function(err) {
-      //       next(err);
-      //   });
-
       var uri = 'http://gateway-a.watsonplatform.net/calls/data/GetNews?apikey=' +
-        process.env.ALCHEMY_KEY + '&outputMode=json&start=now-1d&end=now&count=40&q.enriched.url.enrichedTitle.keywords.keyword.text=' +
-        req.body.parameter + '&return=enriched.url.url,enriched.url.author,enriched.url.publicationDate.date,enriched.url.title,enriched.url.enrichedTitle.docSentiment';
+            process.env.ALCHEMY_KEY + '&outputMode=json&start=now-1d&end=now&count=40&q.enriched.url.enrichedTitle.keywords.keyword.text=' +
+            req.body.parameter + '&return=enriched.url.url,enriched.url.author,enriched.url.publicationDate.date,enriched.url.title,enriched.url.enrichedTitle.docSentiment';
+      var param = req.body.parameter;
 
-      request.get(uri, function(err, response, body) {
-        var body = JSON.parse(body);
-
-        // Call res.send in the API request's callback*!
-        res.json(body);
+      News.findOne({query: param}, function(err, news){
+        if (news) {
+          console.log('the news is ', news);
+          var oneDayMore = moment(news.searchedAt).add(1, 'days');
+          var now = moment();
+          if (now.isBefore(oneDayMore)) {
+            res.json({
+              apiCall: false,
+              results: news,
+              status: 'OK'
+            });
+          } else {
+            request.get(uri, function(err, response, body) {
+              // var body = JSON.parse(body);
+              news.searchedAt = now;
+              news.articles = [];
+              body.docs.forEach(function(article) {
+                news.articles.push({
+                  headline: article.source.enriched.url.title,
+                  author: article.source.enriched.url.author,
+                  link: article.source.enriched.url.url,
+                  date: article.source.enriched.url.publicationDate,
+                  sentiment: article.source.enriched.url.enrichedTitle.docSentiment.type
+                });
+              })
+              news.save(function(err){
+                res.json({
+                  apiCall: true,
+                  results: news,
+                  status: body.satus
+                });
+              });
+            });
+          }
+        } else {
+          request.get(uri, function(err, response, body) {
+            var body = JSON.parse(body);
+            console.log('the status is', body.status);
+            // console.log('the docs are', body.result.docs);
+            if (body.status != 'OK') {
+              res.json({
+                  apiCall: true,
+                  status: body.status
+              });
+            } else {
+              News.create({
+                query: param,
+                searchedAt: moment()
+              }).then(function(newNews) {
+                body.result.docs.forEach(function(article) {
+                  console.log('adding article: ', article.source.enriched.url.title);
+                  newNews.articles.push({
+                    headline: article.source.enriched.url.title,
+                    author: article.source.enriched.url.author,
+                    link: article.source.enriched.url.url,
+                    date: article.source.enriched.url.publicationDate.date,
+                    sentiment: article.source.enriched.url.enrichedTitle.docSentiment.type
+                  });
+                });
+                newNews.save(function(err){
+                  res.json({
+                    apiCall: true,
+                    results: newNews,
+                    status: body.status
+                  });
+                });
+              });
+            }
+          });
+        }
       });
 
     });

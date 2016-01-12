@@ -13,6 +13,7 @@
         searchCall:   searchCall,
         result:     [],
         param: "",
+        status: ""
       }
 
       return search;
@@ -30,7 +31,9 @@
           })
         }).then(function(data) {
           // vm.user.currentUser = data.data.data;
-          search.result = data.data;
+          search.status = data.data.status;
+          search.result = data.data.results.articles;
+          $log.log('the api call was made ', data.data.apiCall);
           $log.log('the articles are', search.result);
           // if (search.result.status == "ERROR") {
           //   search.result = [];

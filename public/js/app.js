@@ -4512,6 +4512,7 @@ return a>v||p>a&&u>a},a.noDecrementHours=function(){var a=n(p,60*-s);return u>a|
         searchCall:   searchCall,
         result:     [],
         param: "",
+        status: ""
       }
 
       return search;
@@ -4529,7 +4530,9 @@ return a>v||p>a&&u>a},a.noDecrementHours=function(){var a=n(p,60*-s);return u>a|
           })
         }).then(function(data) {
           // vm.user.currentUser = data.data.data;
-          search.result = data.data;
+          search.status = data.data.status;
+          search.result = data.data.results.articles;
+          $log.log('the api call was made ', data.data.apiCall);
           $log.log('the articles are', search.result);
           // if (search.result.status == "ERROR") {
           //   search.result = [];

@@ -7,8 +7,8 @@
     </div>
   </div>
 
-  <div class="chelsea" id="api-limit" ng-if="vm.searchService.result.status == 'ERROR'"> Unfortunately this application uses an API that has a limited calls per day and the limit has been reached. Try again later! </div>
-  <div class="articles"  ng-if="vm.searchService.result.status == 'OK'" ng-repeat="article in vm.searchService.result.result.docs | startFrom:vm.currentPage*vm.pageSize | limitTo:vm.pageSize">
+  <div class="chelsea" id="api-limit" ng-if="vm.searchService.status == 'ERROR'"> Unfortunately this application uses an API that has a limited calls per day and the limit has been reached. Try again later! </div>
+<!--   <div class="articles"  ng-if="vm.searchService.result.status == 'OK'" ng-repeat="article in vm.searchService.result.result.docs | startFrom:vm.currentPage*vm.pageSize | limitTo:vm.pageSize">
     <div class="article">
       <div class="inside-articles">
         <a class="chelsea title" target="_blank" href="{{article.source.enriched.url.url}}" ng-click="vm.addPoints(article.source.enriched.url.enrichedTitle.docSentiment.type)"> {{article.source.enriched.url.title}}</a>
@@ -19,6 +19,24 @@
     </div>
   </div>
   <div id="data-buttons" ng-if="vm.searchService.result.result.docs">
+    <button class="btn" ng-disabled="vm.currentPage == 0" ng-click="vm.currentPage=vm.currentPage-1">
+        Previous
+    </button>
+    <button class="btn" ng-disabled="vm.currentPage >= vm.searchService.result.result.docs.length/vm.pageSize - 1" ng-click="vm.currentPage=vm.currentPage+1">
+        Next
+    </button>
+  </div> -->
+  <div class="articles"  ng-if="vm.searchService.status == 'OK'" ng-repeat="article in vm.searchService.result | startFrom:vm.currentPage*vm.pageSize | limitTo:vm.pageSize">
+    <div class="article">
+      <div class="inside-articles">
+        <a class="chelsea title" target="_blank" href="{{article.link}}" ng-click="vm.addPoints(article.sentiment)"> {{article.headline}}</a>
+        <div class="author chelsea" ng-if="article.author && article.author != 'Authors' && article.author != '[deleted]'"> {{article.author}} </div>
+        <div class="chelsea"> {{article.date | amDateFormat:'MMMM Do, YYYY'}} </div>
+        <div class="sentiment"> {{article.sentiment}} sentiment</div>
+      </div>
+    </div>
+  </div>
+  <div id="data-buttons" ng-if="vm.searchService.status == 'OK'">
     <button class="btn" ng-disabled="vm.currentPage == 0" ng-click="vm.currentPage=vm.currentPage-1">
         Previous
     </button>
