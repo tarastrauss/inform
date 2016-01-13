@@ -10,8 +10,8 @@ module.exports = function(app, errorHandler) {
   app.post('/api/search',
 
         // validations
-    // checkForToken,
-    // validateToken,
+    checkForToken,
+    validateToken,
 
     function(req, res, next) {
       var uri = 'http://gateway-a.watsonplatform.net/calls/data/GetNews?apikey=' +
@@ -33,24 +33,32 @@ module.exports = function(app, errorHandler) {
           } else {
             request.get(uri, function(err, response, body) {
               var body = JSON.parse(body);
-              news.searchedAt = now;
-              news.articles = [];
-              body.docs.forEach(function(article) {
-                news.articles.push({
-                  headline: article.source.enriched.url.title,
-                  author: article.source.enriched.url.author,
-                  link: article.source.enriched.url.url,
-                  date: article.source.enriched.url.publicationDate,
-                  sentiment: article.source.enriched.url.enrichedTitle.docSentiment.type
-                });
-              })
-              news.save(function(err){
+              if (body.status != 'OK') {
                 res.json({
-                  apiCall: true,
-                  results: news,
-                  status: body.satus
+                    apiCall: true,
+                    status: body.status
                 });
-              });
+              } else {
+                console.log('the new news is ', news);
+                news.searchedAt = now;
+                news.articles = [];
+                body.result.docs.forEach(function(article) {
+                  news.articles.push({
+                    headline: article.source.enriched.url.title,
+                    author: article.source.enriched.url.author,
+                    link: article.source.enriched.url.url,
+                    date: article.source.enriched.url.publicationDate,
+                    sentiment: article.source.enriched.url.enrichedTitle.docSentiment.type
+                  });
+                })
+                news.save(function(err){
+                  res.json({
+                    apiCall: true,
+                    results: news,
+                    status: body.status
+                  });
+                });
+              }
             });
           }
         } else {
