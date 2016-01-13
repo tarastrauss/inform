@@ -40,7 +40,7 @@ module.exports = function(app, errorHandler) {
                 });
               } else {
                 console.log('the new news is ', body.result.docs);
-                news.searchedAt = now;
+                news.searchedAt = moment();
                 news.articles = [];
                 body.result.docs.forEach(function(article) {
                   news.articles.push({
