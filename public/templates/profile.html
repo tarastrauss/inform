@@ -12,8 +12,18 @@
       <div class="user-category red"> Inform Points: </div><div class="user-info red"> {{vm.user.currentUser.points}} <button class="btn" id="learn-more" ng-click="vm.openAlgorithm()">Learn more </button></div><br>
     </div><br>
     <hr id="query-bar" width="60%">
+
+<!--     <uib-carousel >
+      <uib-slide ng-repeat="slide in vm.slides"  >
+        <div ng-if="slide==1"> slide 1! </div>
+        <div ng-if="slide==2"> slide 2! </div>
+
+      </uib-slide>
+    </uib-carousel> -->
+
+
     <div id="query-info">
-      <h4 class="chelsea" id="query-title"> Search History </h4>
+      <h3 class="chelsea" id="query-title"> Points History </h3>
       <div class="chelsea" id="no-searches" ng-if="vm.user.currentUser.queries.length == 0"> No searches yet! Use the navbar at the top of the page to search for news.</div>
       <div class="bars chelsea" ng-repeat="query in vm.user.currentUser.queries  | startFrom:vm.currentPage*vm.pageSize | limitTo:vm.pageSize">
         <div class="query-param"> "{{query.queryInput}}" </div>
@@ -37,15 +47,35 @@
         </div>
         <br>
       </div>
-      <div id="data-buttons" ng-if="vm.user.currentUser.queries.length > 3">
+
+      <div id="race-history" class="chelsea" ng-if="vm.user.currentUser.voteInfo.researchedCandidates.length >= 1
+         && (vm.currentPage == Math.floor(vm.user.currentUser.queries.length/3)
+         || (vm.user.currentUser.queries.length == 0 && vm.currentPage == 0))"> <h4> Researched Elections </h4>
+        <div ng-repeat = "race in vm.user.currentUser.voteInfo.researchedCandidates">
+          <div class="race-name">{{race.race}}</div>
+          <div class="candidate-history" ng-repeat="candidate in race.clickedCandidates"> {{candidate}} </div><br>
+        </div>
+      </div>
+
+      <div id="props-history" class="chelsea" ng-if="vm.user.currentUser.propsClicked.length >= 1
+         && (vm.currentPage == Math.floor((vm.user.currentUser.queries.length/3) + 1)
+         || (vm.user.currentUser.queries.length == 0 && vm.currentPage == 1))"> <h4> Researched Propositions </h4>
+        <div ng-repeat = "prop in vm.user.currentUser.propsClicked">
+          <div class="race-name">{{prop}}</div>
+        </div> <br>
+      </div>
+
+      <div id="data-buttons" ng-if="vm.user.currentUser.queries.length > 0 || (vm.user.currentUser.voteInfo.researchedCandidates.length > 0
+        && vm.user.currentUser.propsClicked.length > 0)">
         <button class="btn" ng-disabled="vm.currentPage == 0" ng-click="vm.currentPage=vm.currentPage-1">
             Previous
         </button>
-        <button class="btn" ng-disabled="vm.currentPage >= vm.user.currentUser.queries.length/vm.pageSize - 1" ng-click="vm.currentPage=vm.currentPage+1">
+        <button class="btn" ng-disabled="vm.currentPage >= vm.user.currentUser.queries.length/3 + 1 " ng-click="vm.currentPage=vm.currentPage+1">
             Next
         </button>
       </div>
    </div>
+
   </div>
 </div>
 

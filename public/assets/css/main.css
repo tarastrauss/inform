@@ -3673,7 +3673,13 @@ hr {
 #data-buttons {
   width: 150px;
   margin: 0 auto;
-  margin-top: 25px;
+
+}
+
+#data-btns {
+    width: 150px;
+  margin: 0 auto;
+  margin-top: 35px;
 }
 
 .inside-articles {
@@ -3821,7 +3827,7 @@ hr {
 }
 #query-title{
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   margin-top: 10px;
 }
 .query-param {
@@ -3981,6 +3987,9 @@ hr {
 #no-searches, #first-vote, #api-limit {
   font-size: 16px;
 }
+#no-searches {
+  margin-bottom: 25px;
+}
 
 .acc {
   width: 50%;
@@ -4009,4 +4018,22 @@ hr {
 #query-bar {
   margin-top: 30px;
   margin-bottom: 20px;
+}
+
+.bars {
+  margin-bottom: -10px;
+}
+
+#race-history, #props-history {
+  text-align: center;
+  font-size: 20px;
+}
+
+.race-name {
+  font-size: 16px;
+}
+
+
+.candidate-history {
+  font-size: 14px;
 }

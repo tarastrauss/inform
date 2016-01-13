@@ -18,16 +18,18 @@
       vm.user.searchFriend(friend);
     }
 
+
     vm.followFriend = function(id) {
       $log.debug('Hit follow friend');
       vm.user.followUser(id);
     }
 
+  $scope.Math=Math;
     vm.currentPage = 0;
     vm.pageSize = 3;
     // vm.data = [];
     vm.numberOfPages=function(){
-        return Math.ceil(vm.user.currentUser.queries.length/vm.pageSize);
+        return Math.ceil((vm.user.currentUser.queries.length + vm.user.currentUser.voteInfo.researchedCandidates.length) /vm.pageSize);
     }
 
     vm.openAlgorithm = function (){
