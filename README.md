@@ -41,10 +41,9 @@ Key|Value Type|Description|
 `lastName`|String|*added by user during sign up*
 `email`|String|added by user during sign up*
 `dob`|Date|*added by user during sign up*
-`queries`|[query schema]|*added by user during news search*
-`friends`|[friend schema]|*added by user during friend search*
-`voteInfo`|voteSchema|*added by user during polling location search*
-`address`|String|*added by user during polling location search*
+`queries`|[query schema]|*added when user runs news search*
+`friends`|[friend schema]|*added by user when following a friend*
+`voteInfo`|voteSchema|*added when user runs polling location search*
 `points`|Number|*added during user creation, updated constantly*
 `address`|String|*added by user during polling place search*
 `propsClicked`|[String]|*added by user when proposition links are clicked*
@@ -52,40 +51,40 @@ Key|Value Type|Description|
 ####Vote Schema
 Key|Value Type|Description|
 ----------|-----|-----------|
-`hasSearchedd`|Boolean|*added by user during polling place search*
-`myLocationName`|String|*added by user during polling place search*
-`myLocationStreet`|String|*added by user during polling place search*
-`myLocationCity`|String|*added by user during polling place search*
-`myLocationZip`|String|*added by user during polling place search*
-`myLocationState`|String|*added by user during polling place search*
-`myvoteUrl`|String|*added by user during polling place search*
-`elections`|[mixed]|*added by user during polling place search*
-`researchedCandidates`|[candidateSchema]|*added by user during polling place search*
+`hasSearchedd`|Boolean|*added by user runs polling place search*
+`myLocationName`|String|*added by user runs polling place search*
+`myLocationStreet`|String|*added by user runs polling place search*
+`myLocationCity`|String|*added by user runs polling place search*
+`myLocationZip`|String|*added by user runs polling place search*
+`myLocationState`|String|*added by user runs polling place search*
+`myvoteUrl`|String|*added by user during pruns place search*
+`elections`|[mixed]|*added by user during pruns place search*
+`researchedCandidates`|[candidateSchema]|*added by user runs polling place search*
 
 ####Candidate Schema
 Key|Value Type|Description|
 ----------|-----|-----------|
-`race`|String|*added by user when a candidate is clicked*
-`clickedCandidates`|[String]|*added by user when a candidate is clicked*
-`clickedDem`|[Boolean]|*added by user when a candidate is clicked*
-`clickedRep`|[Boolean]|*added by user when a candidate is clicked*
-`clickedIn`|[Boolean]|*added by user when a candidate is clicked*
+`race`|String|*added by when user clicks candidate link*
+`clickedCandidates`|[String]|*added by when user clicks candidate link*
+`clickedDem`|[Boolean]|*added by when user clicks candidate link*
+`clickedRep`|[Boolean]|*added by when user clicks candidate link*
+`clickedIn`|[Boolean]|*added by when user clicks candidate link*
 
 ####Friend Schema
 Key|Value Type|Description|
 ----------|-----|-----------|
-`firstName`|String|*added by user when following friend*
-`lastName`|String|*added by user when following friend*
-`userId`|String|*added by user when following friend*
-`points`|Number|*added by user when following friend and updated constantly*
+`firstName`|String|*added when user follows friend*
+`lastName`|String|*added when user follows friend*
+`userId`|String|*added when user follows friend*
+`points`|Number|*added when user follows friend and updated constantly*
 
 ####Query Schema
 Key|Value Type|Description|
 ----------|-----|-----------|
-`queryInput`|String|*added by when user searches for news*
-`negativeClick`|Number|*added by when clicking on article*
-`positiveClick`|Number|*added by when clicking on article*
-`neutralClick`|Number|*added by when clicking on article*
+`queryInput`|String|*added when user searches for news*
+`negativeClick`|Number|*added when user clicks on article*
+`positiveClick`|Number|*added when user clicks on article*
+`neutralClick`|Number|*added when user clicks on article*
 
 
 ###News Data Model
@@ -105,6 +104,11 @@ Key|Value Type|Description|
 `link`|String|*added when articles schema is updated*
 `date`|String|*added when articles schema is updated*
 `sentiment`|String|*added when articles schema is updated*
+
+##Routes
+
+####Coming soon!
+
 
 ##Instalation
 
