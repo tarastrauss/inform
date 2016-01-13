@@ -39,7 +39,7 @@ Key|Value Type|Description|
 ----------|-----|-----------|
 `firstName`|String|*added by user during sign up*
 `lastName`|String|*added by user during sign up*
-`email`|String|added by user during sign up*
+`email`|String|*added by user during sign up*
 `dob`|Date|*added by user during sign up*
 `queries`|[query schema]|*added when user runs news search*
 `friends`|[friend schema]|*added by user when following a friend*
@@ -64,11 +64,11 @@ Key|Value Type|Description|
 ####Candidate Schema
 Key|Value Type|Description|
 ----------|-----|-----------|
-`race`|String|*added by when user clicks candidate link*
-`clickedCandidates`|[String]|*added by when user clicks candidate link*
-`clickedDem`|[Boolean]|*added by when user clicks candidate link*
-`clickedRep`|[Boolean]|*added by when user clicks candidate link*
-`clickedIn`|[Boolean]|*added by when user clicks candidate link*
+`race`|String|*added when user clicks candidate link*
+`clickedCandidates`|[String]|*added when user clicks candidate link*
+`clickedDem`|[Boolean]|*added when user clicks candidate link*
+`clickedRep`|[Boolean]|*added when user clicks candidate link*
+`clickedIn`|[Boolean]|*added when user clicks candidate link*
 
 ####Friend Schema
 Key|Value Type|Description|
