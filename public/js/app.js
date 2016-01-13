@@ -3903,7 +3903,6 @@ return a>v||p>a&&u>a},a.noDecrementHours=function(){var a=n(p,60*-s);return u>a|
 
 
 
-
 })();
 
 (function() {
@@ -4016,22 +4015,6 @@ return a>v||p>a&&u>a},a.noDecrementHours=function(){var a=n(p,60*-s);return u>a|
     $urlRouterProvider.otherwise("/");
   }
 
-
-})();
-
-(function() {
-  "use strict";
-
-  angular
-    .module("informApp")
-    .config(configure);
-
-  configure.$inject = ["$httpProvider"];
-
-  function configure($httpProvider) {
-    // console.log("Adding tokenSigningService interceptor.");
-    $httpProvider.interceptors.push("tokenSigningService");
-  }
 
 })();
 
@@ -4827,5 +4810,21 @@ return a>v||p>a&&u>a},a.noDecrementHours=function(){var a=n(p,60*-s);return u>a|
     $scope.random = Math.floor((Math.random() * 2) + 1);
       $scope.color = $scope.random === 1 ? "primary" : "danger";
     }
+
+})();
+
+(function() {
+  "use strict";
+
+  angular
+    .module("informApp")
+    .config(configure);
+
+  configure.$inject = ["$httpProvider"];
+
+  function configure($httpProvider) {
+    // console.log("Adding tokenSigningService interceptor.");
+    $httpProvider.interceptors.push("tokenSigningService");
+  }
 
 })();

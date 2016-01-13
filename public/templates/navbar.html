@@ -3,9 +3,9 @@
     <div class="navbar-header navbar-brand">
         <div ng-controller="DropdownController as dd" ng-init="dd.loadData()">
           <span  uib-dropdown on-toggle="toggled(open)" >
-            <a id="dropdown" class="btn btn-default" id="user" href id="simple-dropdown" uib-dropdown-toggle ng-click="dd.isCollapsed = !dd.isCollapsed">
+            <div id="dropdown" class="btn btn-default" id="user" id="simple-dropdown" uib-dropdown-toggle ng-click="dd.isCollapsed = !dd.isCollapsed">
               {{dd.user.currentUser.firstName}} ( {{dd.user.currentUser.points}} )  &nbsp;<span class="caret"></span>
-            </a>
+            </div>
             <ul id="dd" uib-dropdown-menu aria-labelledby="simple-dropdown" uib-collapse="dd.isCollapsed">
               <li class="dd-color" role="menuitem">
                 <a class="chelsea dropdown-item" ui-sref="profilePage"> Profile</a>
