@@ -32,7 +32,7 @@ module.exports = function(app, errorHandler) {
             });
           } else {
             request.get(uri, function(err, response, body) {
-              // var body = JSON.parse(body);
+              var body = JSON.parse(body);
               news.searchedAt = now;
               news.articles = [];
               body.docs.forEach(function(article) {
