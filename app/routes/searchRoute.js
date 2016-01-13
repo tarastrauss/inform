@@ -39,7 +39,7 @@ module.exports = function(app, errorHandler) {
                     status: body.status
                 });
               } else {
-                console.log('the new news is ', news);
+                console.log('the new news is ', body.result.docs);
                 news.searchedAt = now;
                 news.articles = [];
                 body.result.docs.forEach(function(article) {
@@ -50,7 +50,7 @@ module.exports = function(app, errorHandler) {
                     date: article.source.enriched.url.publicationDate.date,
                     sentiment: article.source.enriched.url.enrichedTitle.docSentiment.type
                   });
-                })
+                });
                 news.save(function(err){
                   res.json({
                     apiCall: true,
