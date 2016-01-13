@@ -47,7 +47,7 @@ module.exports = function(app, errorHandler) {
                     headline: article.source.enriched.url.title,
                     author: article.source.enriched.url.author,
                     link: article.source.enriched.url.url,
-                    date: article.source.enriched.url.publicationDate,
+                    date: article.source.enriched.url.publicationDate.date,
                     sentiment: article.source.enriched.url.enrichedTitle.docSentiment.type
                   });
                 })
